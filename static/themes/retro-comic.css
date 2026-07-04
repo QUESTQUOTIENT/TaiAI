@@ -1,0 +1,109 @@
+/* ============================================================
+   Style Theme: Retro Comic Book
+   Halftone dots, primary colors, thick black borders, comic book vibe.
+   ============================================================ */
+
+[data-style-theme="retro-comic"] {
+  --bg:           #fff8dc;
+  --fg:           #1a1a1a;
+  --panel:        #fffaf0;
+  --border:       #1a1a1a;
+  --red:          #e53935;
+  --green:        #43a047;
+  --yellow:       #fdd835;
+  --blue:         #1e88e5;
+
+  --hl-bg:        #fffaf0;
+  --hl-fg:        #1a1a1a;
+  --hl-keyword:   #e53935;
+  --hl-string:    #43a047;
+  --hl-comment:   #757575;
+  --hl-function:  #1e88e5;
+  --hl-number:    #f57c00;
+  --hl-builtin:   #6a1b9a;
+  --hl-variable:  #424242;
+  --hl-params:    #616161;
+
+  --user-bubble-bg:   #fdd835;
+  --ai-bubble-bg:     #bbdefb;
+  --bubble-border:    #1a1a1a;
+  --sidebar-bg:       #fffaf0;
+  --section-accent:   #e53935;
+  --brand-color:      #e53935;
+  --input-bg:         #ffffff;
+  --input-border:     #1a1a1a;
+  --send-btn-bg:      #e53935;
+  --send-btn-hover:   #c62828;
+  --code-bg:          #fffaf0;
+  --code-fg:          #1a1a1a;
+  --toggle-bg:        #ffffff;
+  --toggle-active:    #fdd835;
+  --accent-primary:   #e53935;
+  --accent-error:     #c62828;
+  --hamburger-color:  #1a1a1a;
+  --bg-effect-color:  #1a1a1a;
+  --bg-effect-intensity: 0.2;
+  --font-family:      'Bangers', 'Impact', 'Comic Sans MS', sans-serif;
+}
+
+[data-style-theme="retro-comic"] body {
+  background-color: #fff8dc;
+  background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+
+/* Thick black borders on everything */
+[data-style-theme="retro-comic"] * { border-radius: 0 !important; }
+[data-style-theme="retro-comic"] .modal-content,
+[data-style-theme="retro-comic"] .sidebar,
+[data-style-theme="retro-comic"] .chat-input-bar,
+[data-style-theme="retro-comic"] .send-btn,
+[data-style-theme="retro-comic"] .list-item,
+[data-style-theme="retro-comic"] .icon-rail-btn,
+[data-style-theme="retro-comic"] button,
+[data-style-theme="retro-comic"] input,
+[data-style-theme="retro-comic"] textarea {
+  border: 3px solid #1a1a1a !important;
+}
+
+/* Drop shadow like comic panels */
+[data-style-theme="retro-comic"] .modal-content,
+[data-style-theme="retro-comic"] .send-btn,
+[data-style-theme="retro-comic"] .list-item.active,
+[data-style-theme="retro-comic"] .list-item.active-session,
+[data-style-theme="retro-comic"] .icon-rail-btn.active,
+[data-style-theme="retro-comic"] .chat-input-bar {
+  box-shadow: 6px 6px 0 #1a1a1a !important;
+}
+[data-style-theme="retro-comic"] .send-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #1a1a1a !important;
+}
+
+/* Action burst on click */
+@keyframes comic-burst {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+[data-style-theme="retro-comic"] button:active { animation: comic-burst 0.2s ease; }
+
+/* Welcome text with comic style */
+[data-style-theme="retro-comic"] .welcome-name {
+  color: #fdd835 !important;
+  text-shadow: 3px 3px 0 #1a1a1a, -1px -1px 0 #e53935;
+  letter-spacing: 0.2em !important;
+  transform: rotate(-2deg);
+}
+
+/* Halftone overlay on chat area */
+[data-style-theme="retro-comic"] .chat-history::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1.5px);
+  background-size: 6px 6px;
+  opacity: 0.5;
+}

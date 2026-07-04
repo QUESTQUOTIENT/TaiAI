@@ -1,0 +1,131 @@
+/* ============================================================
+   Style Theme: Vaporwave
+   Retro 80s/90s: deep pink/purple, sunset gradient, palm-tree aesthetic.
+   ============================================================ */
+
+[data-style-theme="vaporwave"] {
+  --bg:           #2d0b4e;
+  --fg:           #ffaaff;
+  --panel:        #4a1a6a;
+  --border:       #ff71ce;
+  --red:          #ff71ce;
+  --green:        #01cdfe;
+  --blue:         #05ffa1;
+  --pink:         #ff71ce;
+  --purple:       #b967ff;
+
+  --hl-bg:        #4a1a6a;
+  --hl-fg:        #ffd6f5;
+  --hl-keyword:   #ff71ce;
+  --hl-string:    #01cdfe;
+  --hl-comment:   #b967ff;
+  --hl-function:  #05ffa1;
+  --hl-number:    #fffb96;
+  --hl-builtin:   #b967ff;
+  --hl-variable:  #ffd6f5;
+  --hl-params:    #ff71ce;
+
+  --user-bubble-bg:   rgba(255, 113, 206, 0.20);
+  --ai-bubble-bg:     rgba(1, 205, 254, 0.15);
+  --bubble-border:    #ff71ce;
+  --sidebar-bg:       #3a0f5a;
+  --section-accent:   #ff71ce;
+  --brand-color:      #ff71ce;
+  --input-bg:         #2d0b4e;
+  --input-border:     #ff71ce;
+  --send-btn-bg:      linear-gradient(90deg, #ff71ce, #01cdfe);
+  --send-btn-hover:   #b967ff;
+  --code-bg:          #2d0b4e;
+  --code-fg:          #ffd6f5;
+  --toggle-bg:        #4a1a6a;
+  --toggle-active:    #ff71ce;
+  --accent-primary:   #ff71ce;
+  --accent-error:     #ff4444;
+  --hamburger-color:  #ff71ce;
+  --bg-effect-color:  #ff71ce;
+  --bg-effect-intensity: 0.8;
+  --font-family:      'VT323', 'Press Start 2P', monospace;
+}
+
+[data-style-theme="vaporwave"] body {
+  background-color: #2d0b4e;
+  background-image:
+    linear-gradient(180deg, #2d0b4e 0%, #4a1a6a 50%, #ff71ce 80%, #fffb96 100%);
+  background-attachment: fixed;
+}
+
+/* Retro grid floor */
+[data-style-theme="vaporwave"] body::before {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(#ff71ce 2px, transparent 2px),
+    linear-gradient(90deg, #ff71ce 2px, transparent 2px);
+  background-size: 60px 60px;
+  transform: perspective(400px) rotateX(60deg);
+  transform-origin: bottom center;
+  opacity: 0.5;
+  mask-image: linear-gradient(180deg, transparent 0%, black 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 100%);
+}
+
+/* Sun */
+[data-style-theme="vaporwave"] #welcome-screen::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: linear-gradient(180deg, #fffb96 0%, #ff71ce 50%, #b967ff 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 80px rgba(255, 113, 206, 0.8);
+}
+
+/* Sun stripes */
+[data-style-theme="vaporwave"] #welcome-screen::after {
+  content: "";
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 6px;
+  background-color: #2d0b4e;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow:
+    0 18px 0 #2d0b4e,
+    0 36px 0 #2d0b4e,
+    0 54px 0 #2d0b4e,
+    0 72px 0 #2d0b4e;
+}
+
+/* Glow on text */
+[data-style-theme="vaporwave"] .welcome-name,
+[data-style-theme="vaporwave"] #current-meta {
+  color: #fffb96 !important;
+  text-shadow:
+    0 0 8px #ff71ce,
+    0 0 24px #b967ff !important;
+  letter-spacing: 0.15em !important;
+  font-weight: 700 !important;
+}
+
+[data-style-theme="vaporwave"] .send-btn,
+[data-style-theme="vaporwave"] #sendBtn {
+  background-image: linear-gradient(90deg, #ff71ce, #01cdfe) !important;
+  color: #2d0b4e !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2em !important;
+  border: 2px solid #fffb96 !important;
+}

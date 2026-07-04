@@ -1,0 +1,96 @@
+/* ============================================================
+   Style Theme: Synthwave
+   Deep purple, hot pink + cyan, retro grid + horizon glow.
+   ============================================================ */
+
+[data-style-theme="synthwave"] {
+  --bg:           #1a0033;
+  --fg:           #ff6ec7;
+  --panel:        #2d1b4e;
+  --border:       #4a2c8a;
+  --red:          #ff2bd6;
+  --green:        #00f0ff;
+  --yellow:       #fdd835;
+  --orange:       #ff6b35;
+
+  --hl-bg:        #2d1b4e;
+  --hl-fg:        #ffd6f5;
+  --hl-keyword:   #ff6ec7;
+  --hl-string:    #00f0ff;
+  --hl-comment:   #6b4c9a;
+  --hl-function:  #ff6ec7;
+  --hl-number:    #fdd835;
+  --hl-builtin:   #ff6b35;
+  --hl-variable:  #ffd6f5;
+  --hl-params:    #b48cd9;
+
+  --user-bubble-bg:   rgba(255, 44, 214, 0.15);
+  --ai-bubble-bg:     rgba(0, 240, 255, 0.10);
+  --bubble-border:    rgba(255, 110, 199, 0.5);
+  --sidebar-bg:       #2d1b4e;
+  --section-accent:   #ff6ec7;
+  --brand-color:      #ff6ec7;
+  --input-bg:         #1a0033;
+  --input-border:     #ff6ec7;
+  --send-btn-bg:      linear-gradient(135deg, #ff2bd6, #ff6b35);
+  --send-btn-hover:   #ff6ec7;
+  --code-bg:          #1a0033;
+  --code-fg:          #ffd6f5;
+  --toggle-bg:        #2d1b4e;
+  --toggle-active:    #ff6ec7;
+  --accent-primary:   #ff2bd6;
+  --accent-error:     #ff4444;
+  --hamburger-color:  #ff6ec7;
+  --bg-effect-color:  #ff2bd6;
+  --bg-effect-intensity: 1;
+  --font-family:      'Orbitron', 'Audiowide', 'Fira Code', monospace;
+}
+
+[data-style-theme="synthwave"] body {
+  background-color: #1a0033;
+  background-image:
+    linear-gradient(180deg, transparent 0%, transparent 60%, #ff2bd6 70%, #ff6b35 80%, #fdd835 90%, transparent 100%),
+    linear-gradient(rgba(255, 44, 214, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 44, 214, 0.3) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: 0 0, center center, center center;
+}
+
+/* Synthwave horizon glow */
+@keyframes sw-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 44, 214, 0.6)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.7)); }
+}
+[data-style-theme="synthwave"] .send-btn,
+[data-style-theme="synthwave"] #send-btn {
+  background-image: linear-gradient(135deg, #ff2bd6, #ff6b35) !important;
+  color: #1a0033 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.2em !important;
+  animation: sw-glow 2s ease-in-out infinite;
+}
+
+/* Neon outlined text */
+[data-style-theme="synthwave"] .welcome-name {
+  color: #00f0ff !important;
+  text-shadow: 0 0 8px #00f0ff, 0 0 24px #ff2bd6 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.2em !important;
+}
+
+/* Sun on welcome */
+[data-style-theme="synthwave"] #welcome-screen::before {
+  content: "";
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #fdd835 0%, #ff6b35 50%, #ff2bd6 100%);
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}

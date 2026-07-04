@@ -1,0 +1,53 @@
+name: pip-audit
+
+# P1-23: Run pip-audit on every push + PR + nightly schedule. pip-audit scans
+# Python dependencies for known vulnerabilities (PyPI Advisory Database +
+# OSV). The scan runs against requirements.lock so the result is reproducible.
+# Findings fail the build. Workflow uses the official pip-audit action which
+# installs pip-audit and runs it inside a venv to keep GH Actions clean.
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'requirements.txt'
+      - 'requirements.lock'
+      - '.github/workflows/pip-audit.yml'
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'requirements.txt'
+      - 'requirements.lock'
+  schedule:
+    # Nightly at 03:00 UTC — catches new CVEs even on quiet days.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: pip-audit (Python deps)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pip-audit
+        run: python -m pip install --upgrade pip pip-audit
+
+      - name: Run pip-audit against requirements.lock
+        # --strict: any finding fails the build (vs the default which prints
+        # only). --no-deps: only audit the project's direct deps, not their
+        # transitive tree, so the scan stays fast and stable.
+        run: |
+          python -m pip_audit \
+            --requirement requirements.lock \
+            --strict \
+            --disable-pip

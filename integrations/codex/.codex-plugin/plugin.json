@@ -1,0 +1,22 @@
+{
+  "name": "TaiAi",
+  "version": "0.1.1",
+  "description": "Connect Codex to a scoped TaiAi instance.",
+  "author": {
+    "name": "TaiAi"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "TaiAi",
+    "shortDescription": "Use scoped TaiAi tools from Codex.",
+    "longDescription": "Connects Codex terminal sessions to TaiAi through user-controlled scoped API tokens. Codex must use /api/codex/* endpoints so TaiAi Settings can enforce tool access.",
+    "developerName": "TaiAi",
+    "category": "Productivity",
+    "capabilities": [
+      "todos",
+      "email",
+      "scoped-api"
+    ],
+    "defaultPrompt": "Use TaiAi only through configured scoped access. Check capabilities before reading or writing data."
+  }
+}

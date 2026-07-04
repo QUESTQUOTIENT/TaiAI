@@ -1,0 +1,237 @@
+
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+
+@layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: currentColor;
+  }
+
+  html, :host {
+    line-height: 1.5;
+    
+    text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+                 "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body { margin: 0; line-height: inherit; }
+
+  hr { height: 0; color: inherit; border-top-width: 1px; }
+
+  abbr:where([title]) { text-decoration: underline dotted; }
+
+  h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+
+  a { color: inherit; text-decoration: inherit; }
+
+  b, strong { font-weight: bolder; }
+
+  code, kbd, samp, pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                 "Liberation Mono", "Courier New", monospace;
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+    font-size: 1em;
+  }
+
+  small { font-size: 80%; }
+
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub { bottom: -0.25em; }
+  sup { top: -0.5em; }
+
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+
+  button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  button, select { text-transform: none; }
+
+  button, input:where([type="button"]),
+  input:where([type="reset"]),
+  input:where([type="submit"]) {
+    -webkit-appearance: button;
+    background-color: transparent;
+    background-image: none;
+  }
+
+  :-moz-focusring { outline: auto; }
+  :-moz-ui-invalid { box-shadow: none; }
+
+  progress { vertical-align: baseline; }
+
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button { height: auto; }
+
+  [type="search"] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+  }
+
+  ::-webkit-search-decoration { -webkit-appearance: none; }
+
+  ::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+  }
+
+  summary { display: list-item; }
+
+  blockquote, dl, dd, h1, h2, h3, h4, h5, h6,
+  hr, figure, p, pre { margin: 0; }
+
+  fieldset { margin: 0; padding: 0; }
+
+  legend { padding: 0; }
+
+  ol, ul, menu { list-style: none; margin: 0; padding: 0; }
+
+  dialog { padding: 0; }
+
+  textarea { resize: vertical; }
+
+  input::placeholder,
+  textarea::placeholder { opacity: 1; color: theme(colors.gray.400, #9ca3af); }
+
+  button, [role="button"] { cursor: pointer; }
+
+  :disabled { cursor: default; }
+
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+
+  img, video { max-width: 100%; height: auto; }
+
+  [hidden]:where(:not([hidden="until-found"])) { display: none; }
+}
+
+
+:root {
+  
+  --bg-base:        #020817;
+  --bg-surface:     #0f172a;
+  --bg-elevated:    #030712;
+  --bg-sidebar:     #0f172a;
+  --border-color:   #1e293b;
+  --text-primary:   #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted:     #475569;
+  --accent-primary: #3b82f6;
+  --accent-hover:   #2563eb;
+  --accent-text:    #ffffff;
+  --color-success:  #22c55e;
+  --color-warning:  #f59e0b;
+  --color-error:    #ef4444;
+  --color-info:     #06b6d4;
+  --sidebar-width:  16rem;
+}
+
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+}
+
+
+button, a, input, select, textarea {
+  transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease,
+              opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+
+
+
+
+
+
+
+:root .bg-slate-950,
+:root .bg-\[#030712\],
+:root .bg-\[#020817\] { background-color: var(--bg-elevated) !important; }
+
+:root .bg-slate-900 { background-color: var(--bg-surface) !important; }
+
+:root .bg-slate-800 { background-color: var(--bg-raised) !important; }
+
+
+:root .bg-slate-900\/95 { background-color: color-mix(in srgb, var(--bg-surface) 95%, transparent) !important; }
+:root .bg-slate-900\/60 { background-color: color-mix(in srgb, var(--bg-surface) 60%, transparent) !important; }
+:root .bg-slate-900\/50 { background-color: color-mix(in srgb, var(--bg-surface) 50%, transparent) !important; }
+:root .bg-slate-900\/40 { background-color: color-mix(in srgb, var(--bg-surface) 40%, transparent) !important; }
+:root .bg-slate-800\/80 { background-color: color-mix(in srgb, var(--bg-raised) 80%, transparent) !important; }
+:root .bg-slate-800\/70 { background-color: color-mix(in srgb, var(--bg-raised) 70%, transparent) !important; }
+:root .bg-slate-800\/60 { background-color: color-mix(in srgb, var(--bg-raised) 60%, transparent) !important; }
+:root .bg-slate-800\/40 { background-color: color-mix(in srgb, var(--bg-raised) 40%, transparent) !important; }
+:root .bg-slate-800\/30 { background-color: color-mix(in srgb, var(--bg-raised) 30%, transparent) !important; }
+:root .bg-slate-950\/50 { background-color: color-mix(in srgb, var(--bg-elevated) 50%, transparent) !important; }
+
+
+:root .hover\:bg-slate-800:hover { background-color: var(--bg-raised) !important; }
+:root .hover\:bg-slate-700:hover { background-color: color-mix(in srgb, var(--bg-raised) 120%, transparent) !important; }
+
+
+:root .border-slate-800 { border-color: var(--border-color) !important; }
+:root .border-slate-700 { border-color: color-mix(in srgb, var(--border-color) 140%, transparent) !important; }
+:root .divide-slate-800 > * + * { border-color: var(--border-color) !important; }
+
+
+:root .text-white,
+:root .text-slate-100  { color: var(--text-primary)   !important; }
+:root .text-slate-300  { color: color-mix(in srgb, var(--text-primary) 70%, var(--text-secondary)) !important; }
+:root .text-slate-400  { color: var(--text-secondary) !important; }
+:root .text-slate-500  { color: var(--text-muted)     !important; }
+:root .text-slate-600  { color: color-mix(in srgb, var(--text-muted) 70%, transparent) !important; }
+
+
+:root .bg-blue-600  { background-color: var(--accent-primary) !important; }
+:root .hover\:bg-blue-500:hover { background-color: var(--accent-hover) !important; }
+:root .hover\:bg-blue-700:hover { background-color: color-mix(in srgb, var(--accent-primary) 80%, #000) !important; }
+:root .text-blue-400 { color: var(--accent-primary) !important; }
+:root .text-blue-300 { color: color-mix(in srgb, var(--accent-primary) 90%, #fff 20%) !important; }
+:root .border-blue-500 { border-color: var(--accent-primary) !important; }
+:root .border-blue-500\/40 { border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent) !important; }
+:root .border-blue-500\/30 { border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent) !important; }
+:root .bg-blue-500\/10 { background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent) !important; }
+:root .bg-blue-500\/20 { background-color: color-mix(in srgb, var(--accent-primary) 20%, transparent) !important; }
+:root .bg-blue-600\/10 { background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent) !important; }
+:root .bg-blue-600\/15 { background-color: color-mix(in srgb, var(--accent-primary) 15%, transparent) !important; }
+:root .ring-blue-500\/30 { --tw-ring-color: color-mix(in srgb, var(--accent-primary) 30%, transparent) !important; }
+:root .shadow-blue-900\/30 { box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--accent-primary) 20%, transparent) !important; }
+
+
+:root .bg-blue-600 { color: var(--accent-text) !important; }

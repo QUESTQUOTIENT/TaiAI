@@ -1,0 +1,41 @@
+name: theme-contrast-audit
+
+# Runs scripts/audit_theme_contrast.py on every PR that touches theme
+# CSS / JS / the audit script itself. Fails the build if any built-in
+# theme drops below WCAG AA (4.5:1) for body text contrast.
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'static/js/theme.js'
+      - 'static/themes/**'
+      - 'scripts/audit_theme_contrast.py'
+      - '.github/workflows/theme-contrast-audit.yml'
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'static/js/theme.js'
+      - 'static/themes/**'
+      - 'scripts/audit_theme_contrast.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: WCAG AA contrast audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run contrast audit
+        # The script has no third-party deps (uses only stdlib). Fail
+        # the build if any theme pair drops below 4.5:1.
+        run: python scripts/audit_theme_contrast.py

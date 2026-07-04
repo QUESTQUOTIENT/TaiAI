@@ -1,0 +1,119 @@
+/* ============================================================
+   Style Theme: Cyberpunk
+   Loads on top of style.css when TaiAi-style-theme === "cyberpunk".
+   Provides dark void palette + neon accents + grid/scanline background.
+   ============================================================ */
+
+[data-style-theme="cyberpunk"] {
+  /* Core cyberpunk palette */
+  --bg:           #07070d;
+  --fg:           #00f0ff;
+  --panel:        #0d0d18;
+  --border:       #1f1f3a;
+  --red:          #00f0ff;
+  --green:        #50fa7b;
+
+  /* Syntax highlight */
+  --hl-bg:        #0d0d18;
+  --hl-fg:        #e8e8f0;
+  --hl-keyword:   #ff2bd6;
+  --hl-string:    #50fa7b;
+  --hl-comment:   #5a5a7a;
+  --hl-function:  #00f0ff;
+  --hl-number:    #ffb454;
+  --hl-builtin:   #9b30ff;
+  --hl-variable:  #c8c8e0;
+  --hl-params:    #8a8ab0;
+
+  /* Advanced overrides */
+  --user-bubble-bg:   rgba(0, 240, 255, 0.10);
+  --ai-bubble-bg:     rgba(155, 48, 255, 0.06);
+  --bubble-border:    rgba(0, 240, 255, 0.35);
+  --sidebar-bg:       #0d0d18;
+  --section-accent:   #00f0ff;
+  --brand-color:      #00f0ff;
+  --input-bg:         #11111e;
+  --input-border:     #1f1f3a;
+  --send-btn-bg:      #00f0ff;
+  --send-btn-hover:   #9b30ff;
+  --code-bg:          #07070d;
+  --code-fg:          #e8e8f0;
+  --toggle-bg:        #11111e;
+  --toggle-active:    #00f0ff;
+  --accent-primary:   #00f0ff;
+  --accent-error:     #ff3b5c;
+  --hamburger-color:  #00f0ff;
+  --bg-effect-color:  #00f0ff;
+  --bg-effect-intensity: 1;
+  --font-family:      'Fira Code', 'Berkeley Mono', monospace;
+}
+
+/* Grid + scanline body overlays */
+[data-style-theme="cyberpunk"] body {
+  background-color: #07070d;
+  position: relative;
+  overflow: hidden;
+}
+[data-style-theme="cyberpunk"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(42, 42, 74, 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(42, 42, 74, 0.6) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
+  opacity: 0.5;
+}
+[data-style-theme="cyberpunk"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0, transparent 2px,
+    rgba(0, 240, 255, 0.025) 3px, rgba(0, 240, 255, 0.025) 3.5px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+/* Glow keyframes */
+@keyframes cy-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); }
+  50%      { box-shadow: 0 0 0 8px transparent; }
+}
+@keyframes cy-blink {
+  0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; }
+}
+[data-style-theme="cyberpunk"] #send-btn,
+[data-style-theme="cyberpunk"] .send-btn {
+  box-shadow: 0 0 0 0.5px #00f0ff, 0 0 20px rgba(0, 240, 255, 0.5);
+}
+[data-style-theme="cyberpunk"] #send-btn:hover,
+[data-style-theme="cyberpunk"] .send-btn:hover {
+  box-shadow: 0 0 0 0.5px #00f0ff, 0 0 32px rgba(0, 240, 255, 0.7), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+[data-style-theme="cyberpunk"] .list-item.active,
+[data-style-theme="cyberpunk"] .list-item.active-session {
+  box-shadow: inset 0 0 0 0.5px rgba(0, 240, 255, 0.4);
+}
+[data-style-theme="cyberpunk"] .welcome-name {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5), 0 0 32px rgba(0, 240, 255, 0.25);
+}
+[data-style-theme="cyberpunk"] #loader-wave {
+  text-shadow: 0 0 16px rgba(0, 240, 255, 0.7);
+  animation: cy-blink 1s steps(2) infinite;
+}
+
+/* Saturated text + panels */
+[data-style-theme="cyberpunk"] body,
+[data-style-theme="cyberpunk"] html { color: #00f0ff; }
+[data-style-theme="cyberpunk"] .sidebar,
+[data-style-theme="cyberpunk"] .icon-rail { box-shadow: inset -1px 0 0 rgba(0, 240, 255, 0.15); }

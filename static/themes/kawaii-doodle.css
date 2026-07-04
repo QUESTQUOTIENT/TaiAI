@@ -1,0 +1,86 @@
+/* ============================================================
+   Style Theme: Kawaii Doodle
+   Cream paper bg, mint + coral accents, hand-drawn dotted decorations.
+   ============================================================ */
+
+[data-style-theme="kawaii-doodle"] {
+  --bg:           #fdf6e3;
+  --fg:           #2c5f5d;
+  --panel:        #fffaf0;
+  --border:       #b5e2d0;
+  --red:          #ff7f7f;
+  --green:        #8fd9b6;
+
+  --hl-bg:        #fffaf0;
+  --hl-fg:        #2c5f5d;
+  --hl-keyword:   #ff7f7f;
+  --hl-string:    #8fd9b6;
+  --hl-comment:   #aaa48a;
+  --hl-function:  #5fb3a8;
+  --hl-number:    #ffb74d;
+  --hl-builtin:   #b39ddb;
+  --hl-variable:  #6b8e8c;
+  --hl-params:    #8aa8a6;
+
+  --user-bubble-bg:   #ffd6cc;
+  --ai-bubble-bg:     #d6f0e0;
+  --bubble-border:    #b5e2d0;
+  --sidebar-bg:       #fff5e6;
+  --section-accent:   #ff7f7f;
+  --brand-color:      #ff7f7f;
+  --input-bg:         #fffaf0;
+  --input-border:     #b5e2d0;
+  --send-btn-bg:      #ff9a8a;
+  --send-btn-hover:   #ff7f7f;
+  --code-bg:          #fff5e6;
+  --code-fg:          #2c5f5d;
+  --toggle-bg:        #fffaf0;
+  --toggle-active:    #8fd9b6;
+  --accent-primary:   #ff7f7f;
+  --accent-error:     #e57373;
+  --hamburger-color:  #ff7f7f;
+  --bg-effect-color:  #b5e2d0;
+  --bg-effect-intensity: 0.4;
+  --font-family:      'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive;
+}
+
+[data-style-theme="kawaii-doodle"] body {
+  background-color: #fdf6e3;
+  background-image:
+    radial-gradient(circle, rgba(181, 226, 208, 0.5) 1px, transparent 1.5px);
+  background-size: 20px 20px;
+}
+
+/* Dashed hand-drawn borders */
+[data-style-theme="kawaii-doodle"] .modal-content,
+[data-style-theme="kawaii-doodle"] .sidebar,
+[data-style-theme="kawaii-doodle"] .chat-input-bar,
+[data-style-theme="kawaii-doodle"] .send-btn,
+[data-style-theme="kawaii-doodle"] .icon-rail-btn,
+[data-style-theme="kawaii-doodle"] .list-item {
+  border: 2px dashed #8fd9b6 !important;
+  border-radius: 16px !important;
+}
+
+/* Soft wobble on hover */
+@keyframes doodle-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-1deg); }
+  75%      { transform: rotate(1deg); }
+}
+[data-style-theme="kawaii-doodle"] .send-btn:hover { animation: doodle-wobble 0.4s ease; }
+
+/* Buttons get cute shadows */
+[data-style-theme="kawaii-doodle"] #send-btn,
+[data-style-theme="kawaii-doodle"] .send-btn {
+  background-color: #ff9a8a !important;
+  background-image: none !important;
+  box-shadow: 4px 4px 0 #ff7f7f !important;
+}
+[data-style-theme="kawaii-doodle"] #send-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #ff7f7f !important; }
+[data-style-theme="kawaii-doodle"] #send-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #ff7f7f !important; }
+
+/* Welcome text decoration */
+[data-style-theme="kawaii-doodle"] .welcome-name { color: #ff7f7f; }
+[data-style-theme="kawaii-doodle"] .welcome-name::before { content: "☁ "; }
+[data-style-theme="kawaii-doodle"] .welcome-name::after  { content: " ☁"; }

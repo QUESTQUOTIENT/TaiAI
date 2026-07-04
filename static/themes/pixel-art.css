@@ -1,0 +1,128 @@
+/* ============================================================
+   Style Theme: Pixel Art
+   8-bit aesthetic: sharp pixels, NES palette, scanlines, big chunky pixels.
+   ============================================================ */
+
+[data-style-theme="pixel-art"] {
+  --bg:           #1a1c2c;
+  --fg:           #f4f4f4;
+  --panel:        #29366f;
+  --border:       #41a6f6;
+  --red:          #b13e53;
+  --green:        #38b764;
+  --blue:         #3b5dc9;
+  --yellow:       #ffcd75;
+  --purple:       #94b0c2;
+  --pink:         #ef7d57;
+  --brown:        #a86523;
+
+  /* NES-inspired palette */
+  --hl-bg:        #29366f;
+  --hl-fg:        #f4f4f4;
+  --hl-keyword:   #ef7d57;
+  --hl-string:    #38b764;
+  --hl-comment:   #94b0c2;
+  --hl-function:  #ffcd75;
+  --hl-number:    #b13e53;
+  --hl-builtin:   #41a6f6;
+  --hl-variable:  #f4f4f4;
+  --hl-params:    #94b0c2;
+
+  --user-bubble-bg:   #3b5dc9;
+  --ai-bubble-bg:     #29366f;
+  --bubble-border:    #41a6f6;
+  --sidebar-bg:       #1a1c2c;
+  --section-accent:   #ffcd75;
+  --brand-color:      #41a6f6;
+  --input-bg:         #29366f;
+  --input-border:     #41a6f6;
+  --send-btn-bg:      #38b764;
+  --send-btn-hover:   #ffcd75;
+  --code-bg:          #1a1c2c;
+  --code-fg:          #ffcd75;
+  --toggle-bg:        #29366f;
+  --toggle-active:    #ffcd75;
+  --accent-primary:   #41a6f6;
+  --accent-error:     #b13e53;
+  --hamburger-color:  #ffcd75;
+  --bg-effect-color:  #41a6f6;
+  --bg-effect-intensity: 0.5;
+  --font-family:      'Press Start 2P', 'VT323', monospace;
+}
+
+[data-style-theme="pixel-art"] body {
+  background-color: #1a1c2c;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 3px,
+      rgba(0, 0, 0, 0.15) 3px, rgba(0, 0, 0, 0.15) 4px
+    );
+}
+
+/* Pixel-perfect sharp edges everywhere (no antialiasing) */
+[data-style-theme="pixel-art"] * {
+  border-radius: 0 !important;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  text-rendering: geometricPrecision;
+}
+
+/* Pixelated borders */
+[data-style-theme="pixel-art"] .modal-content,
+[data-style-theme="pixel-art"] .sidebar,
+[data-style-theme="pixel-art"] .chat-input-bar,
+[data-style-theme="pixel-art"] .list-item,
+[data-style-theme="pixel-art"] button,
+[data-style-theme="pixel-art"] input,
+[data-style-theme="pixel-art"] textarea {
+  border: 4px solid #41a6f6 !important;
+}
+
+/* Active state = inverted */
+[data-style-theme="pixel-art"] .list-item.active,
+[data-style-theme="pixel-art"] .list-item.active-session,
+[data-style-theme="pixel-art"] .icon-rail-btn.active {
+  background-color: #ffcd75 !important;
+  color: #1a1c2c !important;
+  border-color: #ffcd75 !important;
+}
+
+/* Big chunky send button */
+[data-style-theme="pixel-art"] .send-btn,
+[data-style-theme="pixel-art"] #sendBtn {
+  background-color: #38b764 !important;
+  background-image: none !important;
+  color: #1a1c2c !important;
+  border: 4px solid #ffcd75 !important;
+  box-shadow: 4px 4px 0 #94b0c2;
+  font-weight: 700 !important;
+  letter-spacing: 0.2em !important;
+}
+[data-style-theme="pixel-art"] .send-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #94b0c2;
+}
+[data-style-theme="pixel-art"] .send-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #94b0c2;
+}
+
+/* Pixel borders using box-shadow for crisp corners */
+[data-style-theme="pixel-art"] .modal-content {
+  box-shadow:
+    0 0 0 4px #1a1c2c,
+    8px 8px 0 0 #41a6f6;
+}
+
+/* Welcome = retro game title */
+[data-style-theme="pixel-art"] .welcome-name {
+  color: #ffcd75 !important;
+  text-shadow: 4px 4px 0 #b13e53, 8px 8px 0 #41a6f6;
+  letter-spacing: 0.3em !important;
+  font-weight: 900 !important;
+}
+[data-style-theme="pixel-art"] .welcome-name::before { content: "▶ "; color: #38b764; }
+[data-style-theme="pixel-art"] .welcome-name::after  { content: " ◀"; color: #38b764; }

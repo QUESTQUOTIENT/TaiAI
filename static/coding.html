@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coding — TaiAi</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 4L16 22L6 22Z' fill='%23e06c75'/%3E%3Cpath d='M16 8L16 22L24 22Z' fill='%23e06c75' opacity='0.6'/%3E%3Cpath d='M4 24Q10 20 16 24Q22 28 28 24' stroke='%23e06c75' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#282c34">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <link rel="apple-touch-icon" href="/static/icon-192.png">
+  <script nonce="{{CSP_NONCE}}">
+  window._TaiAiLoadTime = Date.now();
+  (function(){
+    try {
+      var t = JSON.parse(localStorage.getItem('TaiAi-theme'));
+      if (t && t.colors) {
+        var s = document.documentElement.style;
+        var c = t.colors;
+        s.setProperty('--bg', c.bg);
+        s.setProperty('--fg', c.fg);
+        s.setProperty('--panel', c.panel);
+        s.setProperty('--border', c.border);
+        if (c.red) s.setProperty('--red', c.red);
+        var _bc = (c.advanced && c.advanced.brandColor) || c.red;
+        if (_bc) s.setProperty('--brand-color', _bc);
+        var mtc = document.querySelector('meta[name="theme-color"]');
+        if (mtc && c.bg) mtc.setAttribute('content', c.bg);
+      }
+      if (t && t.font) {
+        var fm = {mono:"'Fira Code', monospace",sans:"system-ui, -apple-system, 'Segoe UI', sans-serif",serif:"Georgia, 'Times New Roman', serif"};
+        if (fm[t.font]) { s.setProperty('--font-family', fm[t.font]); }
+        else { s.setProperty('--font-family', "'" + t.font.replace(/'/g,'') + "', sans-serif"); }
+      }
+      if (t && t.density && t.density !== 'comfortable') {
+        document.documentElement.classList.add('density-' + t.density);
+      }
+    } catch(e){}
+  })();
+  </script>
+  <!-- Per-route favicon: code brackets -->
+  <script nonce="{{CSP_NONCE}}">
+  (function(){
+    try {
+      var ac = (function(){ try { var t = JSON.parse(localStorage.getItem('TaiAi-theme')); return (t && (t.red || (t.colors && t.colors.red))) || '#e06c75'; } catch(_) { return '#e06c75'; } })();
+      var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>" +
+        "<path d='M12 8 L4 16 L12 24' fill='none' stroke='" + ac + "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>" +
+        "<path d='M20 8 L28 16 L20 24' fill='none' stroke='" + ac + "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>" +
+        "<line x1='18' y1='6' x2='14' y2='26' stroke='" + ac + "' stroke-width='2.5' stroke-linecap='round'/>" +
+        "</svg>";
+      var href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+      var fav = document.querySelector("link[rel='icon']");
+      if (!fav) { fav = document.createElement('link'); fav.rel = 'icon'; fav.type = 'image/svg+xml'; document.head.appendChild(fav); }
+      fav.href = href;
+      var apple = document.querySelector("link[rel='apple-touch-icon']");
+      if (!apple) { apple = document.createElement('link'); apple.rel = 'apple-touch-icon'; document.head.appendChild(apple); }
+      apple.href = href;
+      document.title = 'Coding — TaiAi';
+      // NOTE: we deliberately do NOT swap the <link rel="manifest"> to a
+      // blob: URL here. The page-level CSP is `default-src 'self'`, which
+      // rejects blob: manifests (Chrome logs a violation on every load).
+      // The default /static/manifest.json is good enough for the install
+      // affordance — the per-route theme colour shows up on the icon via
+      // the inline SVG above, not the manifest.
+    } catch(e){}
+  })();
+  </script>
+  <script defer src="/static/lib/highlight.min.js"></script>
+  <style>
+    @font-face { font-family: 'Inter'; font-weight: 400; font-style: normal; font-display: swap; src: url('/static/fonts/Inter-Regular.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-weight: 500; font-style: normal; font-display: swap; src: url('/static/fonts/Inter-Medium.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-weight: 600; font-style: normal; font-display: swap; src: url('/static/fonts/Inter-SemiBold.woff2') format('woff2'); }
+  </style>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/cyberpunk.css">
+  <link rel="stylesheet" href="/static/css/coding.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content, viewport-fit=cover" />
+</head>
+<body class="app-body">
+  <div id="app-loader" style="position:fixed;inset:0;z-index:99999;background:var(--bg,#282c34);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;transition:opacity .3s">
+    <div id="loader-wave" style="color:var(--brand-color,var(--red,#e06c75));font-family:monospace;font-size:11px;opacity:.5">▁▂▃</div>
+  </div>
+  <script nonce="{{CSP_NONCE}}">
+  (function(){
+    var el=document.getElementById('loader-wave');
+    if(!el)return;
+    var frames=['▁▂▃','▂▃▄','▃▄▅','▄▅▆','▅▆▅','▆▅▄','▅▄▃','▄▃▂','▃▂▁'];
+    var i=0;
+    var iv=setInterval(function(){
+      if(!document.getElementById('app-loader')){clearInterval(iv);return}
+      el.textContent=frames[i%frames.length];
+      i++;
+    },150);
+    setTimeout(function(){var l=document.getElementById('app-loader');if(l){l.style.opacity='0';setTimeout(function(){l.remove()},300)}},5000);
+  })();
+  </script>
+
+  <div id="mobile-backdrop"></div>
+  <button id="mobile-menu-btn" aria-label="Toggle sidebar">&#x2630;</button>
+  <button class="hamburger-btn" id="hamburger-btn" title="Show sidebar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y1="6"/><line x1="3" y1="12" x2="21" y1="12"/><line x1="3" y1="18" x2="21" y1="18"/></svg></button>
+
+  <div class="icon-rail" id="icon-rail">
+    <div class="rail-resize-handle" id="rail-resize-handle"></div>
+    <button class="icon-rail-btn" id="rail-search-btn" title="Search conversations (Ctrl+K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
+    <button class="icon-rail-btn rail-new-chat" id="rail-new-session" title="New chat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    <button class="icon-rail-btn" id="rail-delete-session" title="Delete session">&#x2715;</button>
+    <div class="rail-separator"></div>
+    <button class="icon-rail-btn rail-dynamic" id="rail-chats" title="Chat ready" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <button class="icon-rail-btn rail-dynamic" id="rail-documents" title="Documents" style="display:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></button>
+    <button class="icon-rail-btn" id="rail-calendar" title="Calendar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button>
+    <button class="icon-rail-btn" id="rail-coding" title="Coding"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8 L4 16 L12 24"/><path d="M20 8 L28 16 L20 24" transform="translate(-4 -8)"/><line x1="18" y1="6" x2="14" y2="26"/></svg></button>
+    <button class="icon-rail-btn" id="rail-compare" title="Compare"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg></button>
+    <button class="icon-rail-btn" id="rail-cookbook" title="Cookbook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.7"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></button>
+    <button class="icon-rail-btn" id="rail-research" title="Deep Research"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></button>
+    <button class="icon-rail-btn" id="rail-email" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></button>
+    <button class="icon-rail-btn" id="rail-gallery" title="Gallery"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+    <button class="icon-rail-btn" id="rail-archive" title="Library"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6M9 11h4"/></svg></button>
+    <button class="icon-rail-btn" id="rail-memory" title="Brain"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/></svg></button>
+    <button class="icon-rail-btn" id="rail-notes" title="Notes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h5"/><path d="M8 17.5 15.5 10l2.5 2.5L10.5 20H8z"/></svg></button>
+    <button class="icon-rail-btn" id="rail-tasks" title="Tasks"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg></button>
+    <button class="icon-rail-btn" id="rail-theme" title="Theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20 5 5 0 0 0 5-5 3 3 0 0 0-3-3h-2a3 3 0 0 1-3-3 5 5 0 0 1 5-5"/></svg></button>
+    <div style="flex:1"></div>
+    <button class="icon-rail-btn" id="rail-settings" title="Settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  </div>
+
+  <nav class="sidebar" id="sidebar" role="navigation" aria-label="Sidebar">
+    <div class="sidebar-resize-handle" id="sidebar-resize-handle"></div>
+    <div class="sidebar-header">
+      <button class="sidebar-hamburger" id="sidebar-toggle-btn" title="Toggle sidebar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y1="6"/><line x1="3" y1="12" x2="21" y1="12"/><line x1="3" y1="18" x2="21" y1="18"/></svg></button>
+      <div class="sidebar-brand" id="sidebar-brand-btn" style="cursor:pointer;" title="New chat">
+        <span class="sidebar-brand-title">TaiAi</span>
+      </div>
+    </div>
+    <div class="sidebar-inner">
+      <div class="list-item" id="sidebar-new-chat-btn" title="New chat">
+        <svg class="sidebar-action-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;left:-2px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span class="grow" style="position:relative;left:-3px;">New Chat</span>
+      </div>
+      <div class="list-item" id="sidebar-search-btn" title="Search conversations (Ctrl+K)">
+        <svg class="sidebar-action-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span class="grow" style="position:relative;left:-1px;">Search</span>
+      </div>
+
+      <div class="section" id="sessions-section">
+        <div class="section-header-flex">
+          <span class="section-title" id="chats-section-title"><svg class="section-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="chats-section-label" class="section-title-label">Chats</span><span id="chats-notif-dot" class="sidebar-notif-dot" style="display:none"></span></span>
+        </div>
+        <div id="session-list" role="listbox"></div>
+      </div>
+
+      <div class="section" id="email-section">
+        <div class="section-header-flex">
+          <span class="section-title" id="email-section-title" style="cursor:pointer;" title="Open email inbox"><svg class="section-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>Email</span></span>
+        </div>
+      </div>
+
+      <div class="section" id="models-section">
+        <div class="section-header-flex">
+          <span class="section-title"> Models</span>
+        </div>
+        <div id="models">
+          <div class="models-row">
+            <select id="model-select" aria-label="Select model" style="flex: 1; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);"></select>
+            <button type="button" id="btn-model-chat" class="model-chat-btn" aria-label="Add model chat"><span class="model-chat-btn-label">+ Chat</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="tools-section">
+        <div class="section-header-flex">
+          <span class="section-title"><svg class="section-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Tools</span>
+        </div>
+        <div class="list-item" id="tool-coding-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;">
+            <path d="M9 8 L3 16 L9 24"/>
+            <path d="M15 8 L21 16 L15 24"/>
+            <line x1="13" y1="6" x2="11" y2="26"/>
+          </svg>
+          <span class="grow">Coding</span>
+        </div>
+        <div class="list-item" id="tool-memory-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;">
+            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+            <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+          </svg>
+          <span class="grow">Brain</span>
+        </div>
+        <div class="list-item" id="tool-calendar-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span class="grow">Calendar</span>
+        </div>
+        <div class="list-item" id="tool-compare-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
+          <span class="grow">Compare</span>
+        </div>
+        <div class="list-item" id="tool-cookbook-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;">
+            <path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+          </svg>
+          <span class="grow">Cookbook</span>
+        </div>
+        <div class="list-item" id="tool-research-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;opacity:0.5;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span class="grow">Deep Research</span>
+        </div>
+        <div class="list-item" id="tool-gallery-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="grow">Gallery</span>
+        </div>
+        <div class="list-item" id="tool-library-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6M9 11h4"/></svg>
+          <span class="grow">Library</span>
+        </div>
+        <div class="list-item" id="tool-notes-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h5"/><path d="M8 17.5 15.5 10l2.5 2.5L10.5 20H8z"/></svg>
+          <span class="grow">Notes</span>
+        </div>
+        <div class="list-item" id="tool-tasks-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+          <span class="grow">Tasks</span>
+        </div>
+        <div class="list-item" id="tool-theme-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5;"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 0 20 4 4 0 0 1 0-8 4 4 0 0 0 0-8"/><circle cx="8" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/></svg>
+          <span class="grow">Theme</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-user-bar" id="sidebar-user-bar">
+      <div class="user-bar-left" id="user-bar-profile">
+        <div class="user-bar-avatar" id="user-bar-avatar"></div>
+        <span class="user-bar-name" id="user-bar-name">User</span>
+      </div>
+      <div class="sidebar-user-bar-actions">
+        <button type="button" class="user-bar-btn" id="user-bar-settings" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="coding-main" id="coding-main" aria-label="Coding workspace" aria-busy="false">
+    <h1 class="a11y-visually-hidden">Coding — TaiAi</h1>
+
+    <!-- Header: project + controls -->
+    <header class="coding-header">
+      <div class="coding-header-left">
+        <h2 class="coding-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;">
+            <path d="M9 8 L3 16 L9 24"/>
+            <path d="M15 8 L21 16 L15 24"/>
+            <line x1="13" y1="6" x2="11" y2="26"/>
+          </svg>
+          Coding
+        </h2>
+        <span class="coding-subtitle">Full-power build agent</span>
+      </div>
+      <div class="coding-header-right">
+        <button type="button" class="coding-icon-btn" id="coding-new-project-btn" title="New project">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>New</span>
+        </button>
+        <button type="button" class="coding-icon-btn" id="coding-delete-project-btn" title="Delete current project">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          <span>Delete</span>
+        </button>
+        <button type="button" class="coding-icon-btn" id="coding-download-btn" title="Download project as zip" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Zip</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Project picker bar -->
+    <div class="coding-project-bar">
+      <label class="coding-project-label">Project:</label>
+      <select id="coding-project-select" aria-label="Project"></select>
+      <span class="coding-project-path" id="coding-project-path"></span>
+    </div>
+
+    <!-- Workspace: 4-pane IDE layout -->
+    <div class="coding-workspace">
+      <!-- Column 1: file tree -->
+      <aside class="coding-files" id="coding-files">
+        <div class="coding-files-header">
+          <span class="coding-files-title">Files</span>
+          <div class="coding-files-actions">
+            <button class="coding-tiny-btn" id="coding-new-file-btn" title="New file">+ File</button>
+            <button class="coding-tiny-btn" id="coding-new-folder-btn" title="New folder">+ Folder</button>
+          </div>
+        </div>
+        <div class="coding-files-tree" id="coding-files-tree">
+          <div class="coding-empty" id="coding-files-empty">
+            <p>No project open.</p>
+            <p class="coding-empty-hint">Click <strong>+ New</strong> or pick a project above.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Column 2: editor + terminal stacked -->
+      <section class="coding-center" id="coding-center">
+        <div class="coding-editor-pane">
+          <div class="coding-editor-header">
+            <div class="coding-editor-tabs" id="coding-editor-tabs">
+              <span class="coding-code-empty">No file open</span>
+            </div>
+            <div class="coding-editor-actions">
+              <span class="coding-editor-status" id="coding-editor-status"></span>
+              <button type="button" class="coding-tiny-btn" id="coding-save-btn" title="Save (Ctrl+S)" disabled>Save</button>
+              <button type="button" class="coding-tiny-btn" id="coding-copy-btn" title="Copy" disabled>Copy</button>
+              <button type="button" class="coding-tiny-btn" id="coding-preview-btn" title="Preview index.html" disabled>Preview</button>
+            </div>
+          </div>
+          <div class="coding-editor-body" id="coding-editor-body">
+            <div class="coding-placeholder" id="coding-placeholder">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3;"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <p>Select a file from the tree, or ask the AI to build something.</p>
+            </div>
+            <textarea id="coding-editor-textarea" class="coding-editor-textarea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" wrap="off" hidden></textarea>
+            <iframe id="coding-preview-iframe" sandbox="allow-scripts" title="Live preview" style="display:none;"></iframe>
+          </div>
+        </div>
+
+        <div class="coding-terminal-pane" id="coding-terminal-pane">
+          <div class="coding-terminal-header">
+            <span class="coding-terminal-title">Terminal</span>
+            <div class="coding-terminal-actions">
+              <button class="coding-tiny-btn" id="coding-terminal-clear" title="Clear terminal output">Clear</button>
+            </div>
+          </div>
+          <div class="coding-terminal-output" id="coding-terminal-output"></div>
+          <form class="coding-terminal-input-row" id="coding-terminal-form">
+            <span class="coding-terminal-prompt" id="coding-terminal-prompt">$</span>
+            <input id="coding-terminal-input" class="coding-terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command and press Enter (runs in project sandbox)">
+          </form>
+        </div>
+      </section>
+
+      <!-- Column 3: AI chat + activity log -->
+      <section class="coding-chat" id="coding-chat">
+        <div class="coding-chat-header">
+          <div class="coding-chat-tabs">
+            <button type="button" class="coding-chat-tab active" data-tab="chat">AI Chat</button>
+            <button type="button" class="coding-chat-tab" data-tab="activity">Activity</button>
+          </div>
+        </div>
+        <div class="coding-chat-body">
+          <div class="coding-chat-pane active" data-pane="chat">
+            <div class="coding-chat-messages" id="coding-chat-messages">
+              <div class="coding-chat-empty">
+                <p>Ask the AI to build something.</p>
+                <p class="coding-empty-hint">Examples:</p>
+                <ul>
+                  <li><button class="coding-chat-suggestion" data-prompt="Read the project README and tell me what's already set up.">Read the README and summarize it</button></li>
+                  <li><button class="coding-chat-suggestion" data-prompt="List every file in this project with `ls -la` and explain each one.">List and explain all files</button></li>
+                  <li><button class="coding-chat-suggestion" data-prompt="Initialize a Python project with a CLI that prints a hello message, runs pytest, and writes a README.">Scaffold a Python CLI app</button></li>
+                  <li><button class="coding-chat-suggestion" data-prompt="Build a Node.js Express server with a /api/hello endpoint and an index.html that fetches it.">Build a Node.js Express + static demo</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="coding-chat-pane" data-pane="activity" hidden>
+            <div class="coding-log" id="coding-log"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Bottom: prompt input -->
+    <footer class="coding-prompt-bar" id="coding-prompt-bar">
+      <div class="coding-prompt-inner">
+        <textarea
+          id="coding-prompt"
+          class="coding-prompt-input"
+          rows="3"
+          placeholder="Describe what you want to build… e.g. 'Build a snake game in a single HTML file with score tracking, arrow-key controls, and pause on space.'"
+          aria-label="Prompt"></textarea>
+        <div class="coding-prompt-controls">
+          <label class="coding-prompt-mode">
+            <span>Endpoint</span>
+            <select id="coding-endpoint-select" aria-label="Endpoint"></select>
+          </label>
+          <label class="coding-prompt-model">
+            <span>Model</span>
+            <select id="coding-model-select" aria-label="Model">
+              <option value="">Default</option>
+            </select>
+          </label>
+          <button type="button" id="coding-stop-btn" class="coding-stop-btn" hidden>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
+            Stop
+          </button>
+          <button type="button" id="coding-submit-btn" class="coding-submit-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span>Send</span>
+          </button>
+        </div>
+      </div>
+      <div class="coding-status" id="coding-status" aria-live="polite"></div>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Modules. Most of these are no-ops when the relevant DOM (chat
+       container, modal, etc.) isn't present, so loading them all keeps
+       the sidebar/rail/sessions wiring identical to index.html. -->
+  <script type="module" src="/static/js/storage.js"></script>
+  <script type="module" src="/static/js/ui.js"></script>
+  <script type="module" src="/static/js/dragSort.js"></script>
+  <script type="module" src="/static/js/sessions.js"></script>
+  <script type="module" src="/static/js/models.js"></script>
+  <script type="module" src="/static/js/theme.js"></script>
+  <script type="module" src="/static/js/censor.js"></script>
+  <script type="module" src="/static/js/settings.js"></script>
+  <script type="module" src="/static/js/section-management.js"></script>
+  <script type="module" src="/static/js/coding.js"></script>
+  <script nonce="{{CSP_NONCE}}">if('serviceWorker' in navigator){navigator.serviceWorker.register('/static/sw.js').catch(()=>{});}</script>
+<script src="/static/cyberpunk-boot.js" defer></script>
+<script src="/static/style-theme-switcher.js" defer></script>
+</body>
+</html>

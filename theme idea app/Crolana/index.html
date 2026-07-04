@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Crolana — Professional NFT & DeFi Launchpad for Cronos and Solana" />
+    <meta name="theme-color" content="#020817" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    
+    <meta property="og:title" content="Crolana" />
+    <meta property="og:description" content="NFT & DeFi Launchpad for Cronos and Solana" />
+    <meta property="og:type" content="website" />
+
+    <title>Crolana</title>
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/logo.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Crolana" />
+    <meta name="application-name" content="Crolana" />
+    <script>
+      (function() {
+        var _origOnError = window.onerror;
+        window.onerror = function(msg, src, line, col, err) {
+          var m = String(msg || '');
+          
+          if (m.indexOf('SES') !== -1 || m.indexOf('lockdown') !== -1) return true;
+          if (m.indexOf("can't access property") !== -1 && src && src.indexOf('solana') !== -1) return true;
+          if (_origOnError) return _origOnError.apply(this, arguments);
+          return false;
+        };
+        window.addEventListener('unhandledrejection', function(e) {
+          var r = e.reason ? String(e.reason) : '';
+          if (r.indexOf('SES') !== -1 || r.indexOf('lockdown') !== -1) {
+            e.preventDefault();
+          }
+        });
+        window.addEventListener('error', function(e) {
+          var m = e.message ? String(e.message) : '';
+          if (m.indexOf('SES') !== -1 || m.indexOf('lockdown') !== -1) {
+            e.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
+
+    
+    <script>
+      (function() {
+        if (typeof window !== 'undefined' && typeof window.Buffer === 'undefined') {
+          
+          
+          
+          var B = {
+            isBuffer: function(obj) { return obj instanceof Uint8Array && obj._isBuffer === true; },
+            from: function(data, enc) {
+              if (data instanceof Uint8Array) return data;
+              if (Array.isArray(data)) return new Uint8Array(data);
+              if (typeof data === 'string') {
+                try {
+                  if (enc === 'hex') {
+                    var bytes = [];
+                    for (var i = 0; i < data.length; i += 2)
+                      bytes.push(parseInt(data.substr(i, 2), 16));
+                    return new Uint8Array(bytes);
+                  }
+                  if (enc === 'base64') {
+                    var bin = atob(data), arr = new Uint8Array(bin.length);
+                    for (var j = 0; j < bin.length; j++) arr[j] = bin.charCodeAt(j);
+                    return arr;
+                  }
+                  return new TextEncoder().encode(data);
+                } catch(e) {
+                  var a = new Uint8Array(data.length);
+                  for (var k = 0; k < data.length; k++) a[k] = data.charCodeAt(k) & 0xff;
+                  return a;
+                }
+              }
+              if (typeof data === 'number') return new Uint8Array(data);
+              return new Uint8Array(0);
+            },
+            alloc: function(size, fill) {
+              var a = new Uint8Array(size);
+              if (fill !== undefined) a.fill(typeof fill === 'string' ? fill.charCodeAt(0) : fill);
+              return a;
+            },
+            allocUnsafe: function(size) { return new Uint8Array(size); },
+            allocUnsafeSlow: function(size) { return new Uint8Array(size); },
+            concat: function(list, len) {
+              var total = len !== undefined ? len : list.reduce(function(s, b) { return s + b.length; }, 0);
+              var out = new Uint8Array(total), offset = 0;
+              list.forEach(function(b) {
+                var chunk = b.length > total - offset ? b.subarray(0, total - offset) : b;
+                out.set(chunk, offset);
+                offset += chunk.length;
+              });
+              return out;
+            },
+            byteLength: function(s, enc) {
+              if (typeof s !== 'string') return s.length || 0;
+              if (enc === 'hex') return s.length / 2;
+              if (enc === 'base64') return Math.ceil(s.length * 3 / 4);
+              try { return new TextEncoder().encode(s).length; } catch(e) { return s.length; }
+            },
+            compare: function(a, b) {
+              for (var i = 0; i < Math.min(a.length, b.length); i++) {
+                if (a[i] < b[i]) return -1;
+                if (a[i] > b[i]) return 1;
+              }
+              return a.length - b.length;
+            },
+          };
+          window.Buffer = B;
+          if (typeof globalThis !== 'undefined') globalThis.Buffer = B;
+          if (typeof global !== 'undefined') global.Buffer = B;
+        }
+
+        
+        if (typeof window !== 'undefined' && typeof window.process === 'undefined') {
+          window.process = {
+            env: { NODE_ENV: 'production', BROWSER: 'true' },
+            version: 'v20.0.0',
+            browser: true,
+            nextTick: function(fn) { setTimeout(fn, 0); },
+            hrtime: function() { return [0, 0]; },
+          };
+          if (typeof globalThis !== 'undefined') globalThis.process = window.process;
+        }
+      })();
+    </script>
+
+    
+    <script>
+      try {
+        var t = JSON.parse(localStorage.getItem('crolana-theme') || '{}');
+        if (t.bgBase) document.documentElement.style.setProperty('--bg-base', t.bgBase);
+      } catch(e) {}
+      if (!document.documentElement.style.getPropertyValue('--bg-base')) {
+        document.documentElement.style.setProperty('--bg-base', '#020817');
+      }
+      document.documentElement.style.background = 'var(--bg-base)';
+    </script>
+
+    <style>
+      
+      html, body { margin: 0; padding: 0; background: #020817; }
+      #root { min-height: 100vh; min-height: 100dvh; }
+    </style>
+  </head>
+  <body style="margin:0;background:#020817">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

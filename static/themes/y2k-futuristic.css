@@ -1,0 +1,120 @@
+/* ============================================================
+   Style Theme: Y2K Futuristic
+   Chrome silver + iridescent accents, bubble shapes, year 2000 optimism.
+   ============================================================ */
+
+[data-style-theme="y2k-futuristic"] {
+  --bg:           #c0c0d0;
+  --fg:           #1a1a3e;
+  --panel:        #e8e8f5;
+  --border:       #6a5acd;
+  --red:          #ff1493;
+  --green:        #00fa9a;
+  --blue:         #00bfff;
+  --silver:       #c0c0e0;
+  --iridescent:   linear-gradient(135deg, #ff1493, #00bfff, #00fa9a);
+
+  --hl-bg:        #e8e8f5;
+  --hl-fg:        #1a1a3e;
+  --hl-keyword:   #ff1493;
+  --hl-string:    #00fa9a;
+  --hl-comment:   #8888aa;
+  --hl-function:  #00bfff;
+  --hl-number:    #ffa500;
+  --hl-builtin:   #6a5acd;
+  --hl-variable:  #1a1a3e;
+  --hl-params:    #4a4a7e;
+
+  --user-bubble-bg:   rgba(255, 20, 147, 0.15);
+  --ai-bubble-bg:     rgba(0, 191, 255, 0.10);
+  --bubble-border:    #6a5acd;
+  --sidebar-bg:       #d8d8e8;
+  --section-accent:   #ff1493;
+  --brand-color:      #ff1493;
+  --input-bg:         #ffffff;
+  --input-border:     #6a5acd;
+  --send-btn-bg:      linear-gradient(135deg, #ff1493, #00bfff, #00fa9a);
+  --send-btn-hover:   #ff1493;
+  --code-bg:          #e8e8f5;
+  --code-fg:          #1a1a3e;
+  --toggle-bg:        #ffffff;
+  --toggle-active:    #ff1493;
+  --accent-primary:   #ff1493;
+  --accent-error:     #ff4500;
+  --hamburger-color:  #ff1493;
+  --bg-effect-color:  #6a5acd;
+  --bg-effect-intensity: 0.5;
+  --font-family:      'Orbitron', 'Eurostile', 'Arial', sans-serif;
+}
+
+[data-style-theme="y2k-futuristic"] body {
+  background-color: #c0c0d0;
+  background-image:
+    linear-gradient(135deg, rgba(255, 20, 147, 0.08) 0%, rgba(0, 191, 255, 0.08) 50%, rgba(0, 250, 154, 0.08) 100%);
+  background-attachment: fixed;
+}
+
+/* Big rounded bubble shapes */
+[data-style-theme="y2k-futuristic"] * { border-radius: 18px !important; }
+[data-style-theme="y2k-futuristic"] .send-btn,
+[data-style-theme="y2k-futuristic"] #sendBtn { border-radius: 28px !important; }
+
+/* Iridescent borders */
+[data-style-theme="y2k-futuristic"] .modal-content,
+[data-style-theme="y2k-futuristic"] .sidebar,
+[data-style-theme="y2k-futuristic"] .chat-input-bar {
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+  position: relative;
+}
+[data-style-theme="y2k-futuristic"] .modal-content::before,
+[data-style-theme="y2k-futuristic"] .chat-input-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background-image: linear-gradient(135deg, #ff1493, #00bfff, #00fa9a, #ff1493);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Chrome shine */
+[data-style-theme="y2k-futuristic"] .send-btn,
+[data-style-theme="y2k-futuristic"] #sendBtn {
+  background-image: linear-gradient(135deg, #ff1493, #00bfff, #00fa9a) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2em !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Holographic shimmer animation */
+@keyframes y2k-shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+[data-style-theme="y2k-futuristic"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+  background-size: 200% 200%;
+  animation: y2k-shimmer 8s linear infinite;
+}
+
+/* Welcome */
+[data-style-theme="y2k-futuristic"] .welcome-name {
+  background-image: linear-gradient(135deg, #ff1493, #00bfff, #00fa9a);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: y2k-shimmer 4s linear infinite;
+  font-weight: 900 !important;
+  letter-spacing: 0.15em !important;
+}

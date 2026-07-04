@@ -1,0 +1,521 @@
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallets     Wallet[]
+  collections Collection[]
+  tokens      Token[]
+  swaps       SwapTransaction[]
+  positions   LiquidityPool[]
+  sessions    Session[]
+}
+
+model Wallet {
+  id          String      @id @default(cuid())
+  address     String
+  
+  chainId     Int         @default(25)
+  
+  chain       ChainType   @default(CRONOS)
+  walletType  String      @default("metamask")  
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isPrimary   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  @@unique([address, chain])
+  @@index([address])
+  @@index([userId])
+  @@index([chain])
+}
+
+enum ChainType {
+  CRONOS
+  SOLANA
+}
+
+enum MetadataMode {
+  IPFS
+  EXTERNAL
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  nonce     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+}
+
+
+
+
+
+model Collection {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id])
+  name        String
+  symbol      String
+  description String?          @db.Text
+  bannerUrl   String?
+  externalUrl String?
+
+  
+  
+  metadataMode MetadataMode?    @default(IPFS)
+  
+
+  totalSupply Int              @default(0)
+  maxSupply   Int
+  mintPrice   String           @default("0")
+  royaltyBps  Int              @default(500)
+  royaltyAddr String?
+  network     String           @default("mainnet")
+  
+  
+  chainId     Int              @default(25)
+  
+  chain       ChainType        @default(CRONOS)
+  
+  mintAddress String?
+  
+  contractAddress String?
+  
+  status      CollectionStatus @default(DRAFT)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  nfts        NFT[]
+  contract    Contract?
+  mintPhases  MintPhase[]
+  walletMints WalletMint[]
+  whitelist   WhitelistEntry[]
+  analytics   AnalyticsSnapshot[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([chain])
+  @@index([contractAddress])
+  @@index([mintAddress])
+}
+
+enum CollectionStatus {
+  DRAFT
+  READY
+  LIVE
+  SOLD_OUT
+  PAUSED
+}
+
+model NFT {
+  id           String     @id @default(cuid())
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  
+  
+  tokenId      Int?
+  
+  mintAddress  String?
+  
+  chain        ChainType  @default(CRONOS)
+  
+
+  name         String
+  description  String?    @db.Text
+  dnaHash      String
+  rarity       Float      @default(0)
+  rarityRank   Int?
+  isLegendary  Boolean    @default(false)
+  imageCid     String?
+  metadataCid  String?
+  ipfsUri      String?
+  metadataUri  String?    
+
+  
+  
+  
+  
+  metadataMode MetadataMode? @default(IPFS)
+  externalUrl  String?        
+  
+
+  attributes   Json       @default("[]")
+
+  
+  owner        String?    
+  mintedAt     DateTime?
+  mintedBy     String?
+  createdAt    DateTime   @default(now())
+
+  mintEvent MintEvent?
+
+  @@unique([collectionId, dnaHash])
+  @@index([collectionId])
+  @@index([tokenId])
+  @@index([mintAddress])
+  @@index([chain])
+  @@index([owner])
+}
+
+
+
+
+
+model Contract {
+  id               String     @id @default(cuid())
+  collectionId     String?    @unique
+  collection       Collection? @relation(fields: [collectionId], references: [id])
+  userId           String?
+  address          String
+  chainId          Int
+  txHash           String?
+  contractType     String     @default("ERC721")
+  name             String
+  symbol           String
+  abi              Json?
+  bytecode         String?    @db.Text
+  sourceCode       String?    @db.Text
+  compilerVersion  String?
+  verified         Boolean    @default(false)
+  deployedAt       DateTime   @default(now())
+
+  mintEvents       MintEvent[]
+  transferEvents   TransferEvent[]
+
+  @@index([address, chainId])
+  @@index([userId])
+}
+
+
+
+
+
+model MintPhase {
+  id             String     @id @default(cuid())
+  collectionId   String
+  collection     Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  name           String
+  phaseType      PhaseType  @default(PUBLIC)
+  startTime      DateTime
+  endTime        DateTime?
+  price          String     @default("0")   
+  maxPerWallet   Int        @default(0)     
+  maxSupply      Int?                        
+  merkleRoot     String?
+  isActive       Boolean    @default(false)
+  order          Int        @default(0)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  walletMints WalletMint[]
+
+  @@index([collectionId])
+  @@index([isActive])
+}
+
+enum PhaseType {
+  ALLOWLIST
+  PUBLIC
+  FCFS
+  DUTCH_AUCTION
+}
+
+model WalletMint {
+  id           String     @id @default(cuid())
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  phaseId      String?
+  phase        MintPhase? @relation(fields: [phaseId], references: [id])
+  walletAddress String
+  quantity     Int        @default(1)
+  txHash       String?
+  mintedAt     DateTime   @default(now())
+
+  @@index([collectionId, walletAddress])
+  @@index([phaseId])
+}
+
+model WhitelistEntry {
+  id           String     @id @default(cuid())
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  address      String
+  maxMints     Int        @default(1)
+  addedAt      DateTime   @default(now())
+
+  @@unique([collectionId, address])
+  @@index([collectionId])
+  @@index([address])
+}
+
+
+
+
+
+model MintEvent {
+  id              String   @id @default(cuid())
+  contractId      String?
+  contract        Contract? @relation(fields: [contractId], references: [id])
+  nftId           String?  @unique
+  nft             NFT?     @relation(fields: [nftId], references: [id])
+  txHash          String
+  blockNumber     Int
+  tokenId         Int?
+  minterAddress   String
+  toAddress       String
+  value           String   @default("0")  
+  chainId         Int      @default(25)
+  timestamp       DateTime @default(now())
+
+  @@index([contractId])
+  @@index([minterAddress])
+  @@index([blockNumber])
+}
+
+model TransferEvent {
+  id          String   @id @default(cuid())
+  contractId  String?
+  contract    Contract? @relation(fields: [contractId], references: [id])
+  txHash      String
+  blockNumber Int
+  tokenId     Int?
+  fromAddress String
+  toAddress   String
+  chainId     Int      @default(25)
+  timestamp   DateTime @default(now())
+
+  @@index([contractId])
+  @@index([fromAddress])
+  @@index([toAddress])
+}
+
+
+
+
+
+model Token {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  address       String?
+  chainId       Int      @default(25)
+  txHash        String?
+  name          String
+  symbol        String
+  decimals      Int      @default(18)
+  initialSupply String
+  maxSupply     String?
+  isMintable    Boolean  @default(false)
+  isBurnable    Boolean  @default(false)
+  isPausable    Boolean  @default(false)
+  hasTax        Boolean  @default(false)
+  taxBps        Int      @default(0)
+  isGovernance  Boolean  @default(false)
+  sourceCode    String?  @db.Text
+  abi           Json?
+  verified      Boolean  @default(false)
+  deployedAt    DateTime?
+  createdAt     DateTime @default(now())
+
+  
+  logoUrl       String?          
+  logoMode      MetadataMode?    @default(IPFS)  
+  logoCid       String?          
+  
+
+  @@index([userId])
+  @@index([address, chainId])
+}
+
+
+
+
+
+model SwapTransaction {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  txHash       String
+  chainId      Int      @default(25)
+  tokenIn      String
+  tokenOut     String
+  amountIn     String
+  amountOut    String
+  dexName      String
+  slippageBps  Int      @default(50)
+  executedAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([txHash])
+}
+
+model LiquidityPool {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  pairAddress String
+  tokenA      String
+  tokenB      String
+  chainId     Int      @default(25)
+  dexName     String
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([pairAddress, chainId])
+}
+
+
+
+
+
+model AnalyticsSnapshot {
+  id              String     @id @default(cuid())
+  collectionId    String
+  collection      Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  date            String     
+  totalMinted     Int        @default(0)
+  uniqueOwners    Int        @default(0)
+  mintsCount      Int        @default(0)
+  revenueWei      String     @default("0")
+  mintVelocity    Float      @default(0)
+  createdAt       DateTime   @default(now())
+
+  @@unique([collectionId, date])
+  @@index([collectionId])
+  @@index([date])
+}
+
+
+
+
+
+model Metadata {
+  id           String   @id @default(cuid())
+  collectionId String?
+  nftId        String?
+  cid          String
+  uri          String
+  gatewayUrl   String?
+  provider     String
+  type         String   @default("metadata")  
+  fileCount    Int      @default(1)
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([cid])
+  @@index([collectionId])
+}
+
+
+
+
+
+
+model NFTListing {
+  id              String        @id @default(cuid())
+  chain           ChainType
+  
+  contractAddress String?
+  tokenId         String?
+  
+  mintAddress     String?
+  
+  seller          String
+  price           String        
+  priceFormatted  String        
+  currency        String        @default("CRO") 
+  marketplace     String        @default("native")
+  listingTxHash   String?
+  saleTxHash      String?
+  status          ListingStatus @default(ACTIVE)
+  listedAt        DateTime      @default(now())
+  expiresAt       DateTime?
+  soldAt          DateTime?
+  soldTo          String?
+
+  @@index([chain, status])
+  @@index([contractAddress, tokenId])
+  @@index([mintAddress])
+  @@index([seller])
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  CANCELLED
+  EXPIRED
+}
+
+
+
+
+
+
+model TrackedTransaction {
+  id             String    @id @default(cuid())
+  chain          ChainType
+  txHash         String
+  walletAddress  String
+  status         TxStatus  @default(PENDING)
+  blockNumber    Int?
+  slot           Int?       
+  fee            String?
+  errorMessage   String?
+  metadata       Json?      
+  confirmedAt    DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([txHash, chain])
+  @@index([walletAddress, chain])
+  @@index([status])
+}
+
+enum TxStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
+
+
+
+
+
+
+model OwnershipCache {
+  id            String    @id @default(cuid())
+  walletAddress String
+  chain         ChainType
+  nftCount      Int       @default(0)
+  
+  snapshot      Json      @default("[]")
+  source        String    @default("helius")  
+  syncedAt      DateTime  @default(now())
+
+  @@unique([walletAddress, chain])
+  @@index([walletAddress])
+  @@index([chain])
+}

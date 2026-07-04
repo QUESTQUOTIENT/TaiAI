@@ -1,0 +1,84 @@
+/* ============================================================
+   Style Theme: Chibi Anime
+   Soft pastel pink + lavender, big rounded corners, sparkle decorations.
+   ============================================================ */
+
+[data-style-theme="chibi-anime"] {
+  --bg:           #fff0f5;
+  --fg:           #d63384;
+  --panel:        #ffffff;
+  --border:       #ffb3d1;
+  --red:          #ff6fa5;
+  --green:        #98e898;
+
+  --hl-bg:        #ffffff;
+  --hl-fg:        #6b3a52;
+  --hl-keyword:   #c13584;
+  --hl-string:    #4caf50;
+  --hl-comment:   #b08a9a;
+  --hl-function:  #ff6fa5;
+  --hl-number:    #ff9933;
+  --hl-builtin:   #9966cc;
+  --hl-variable:  #6b3a52;
+  --hl-params:    #996688;
+
+  --user-bubble-bg:   #ffd6e7;
+  --ai-bubble-bg:     #f3e6ff;
+  --bubble-border:    #ffb3d1;
+  --sidebar-bg:       #fff5f9;
+  --section-accent:   #d63384;
+  --brand-color:      #ff6fa5;
+  --input-bg:         #ffffff;
+  --input-border:     #ffb3d1;
+  --send-btn-bg:      #ff6fa5;
+  --send-btn-hover:   #ff8fbb;
+  --code-bg:          #fff5fa;
+  --code-fg:          #6b3a52;
+  --toggle-bg:        #ffffff;
+  --toggle-active:    #ff6fa5;
+  --accent-primary:   #ff6fa5;
+  --accent-error:     #ff3366;
+  --hamburger-color:  #d63384;
+  --bg-effect-color:  #ffb3d1;
+  --bg-effect-intensity: 0.6;
+  --font-family:      'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+}
+
+[data-style-theme="chibi-anime"] body {
+  background-color: #fff0f5;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 200, 220, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(220, 200, 255, 0.4) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Big rounded everything */
+[data-style-theme="chibi-anime"] * { border-radius: 12px !important; }
+[data-style-theme="chibi-anime"] .send-btn,
+[data-style-theme="chibi-anime"] #submitBtn { border-radius: 24px !important; }
+[data-style-theme="chibi-anime"] button { box-shadow: 0 4px 0 #ff6fa5 !important; }
+[data-style-theme="chibi-anime"] button:hover { transform: translateY(-2px); }
+[data-style-theme="chibi-anime"] button:active { transform: translateY(2px); box-shadow: 0 0 0 transparent !important; }
+
+/* Sparkle animation */
+@keyframes chibi-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+[data-style-theme="chibi-anime"] body::before {
+  content: "✦ ✧ ⋆ ･ﾟ: *✧･ﾟ: ⋆ ✦ ✧ ⋆";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: #ff6fa5;
+  font-size: 24px;
+  opacity: 0.3;
+  animation: chibi-sparkle 4s ease-in-out infinite;
+  word-spacing: 80px;
+  line-height: 60px;
+}
+
+/* Welcome name with hearts */
+[data-style-theme="chibi-anime"] .welcome-name::before { content: "♡ "; color: #ff6fa5; }
+[data-style-theme="chibi-anime"] .welcome-name::after  { content: " ♡"; color: #ff6fa5; }

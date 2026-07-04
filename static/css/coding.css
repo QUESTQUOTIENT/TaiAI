@@ -1,0 +1,9 @@
+/* TaiAi — coding/forge page compatibility shim.
+   The visual layer lives in /static/cyberpunk.css. */
+
+:root {
+  /* Coding page uses Inter for non-code chrome. cyberpunk.css re-asserts
+     this on the .coding-* classes; we keep a token here in case any
+     inline style reaches for it. */
+  --font-family:         'Fira Code', 'Berkeley Mono', 'SF Mono', Menlo, Consolas, monospace;
+}

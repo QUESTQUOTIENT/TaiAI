@@ -1,0 +1,40 @@
+    return f.read()
+           ^^^^^^^^
+C:\Users\Admin\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 727731: character maps to <undefined>
+=========================== short test summary info ===========================
+ERROR tests/test_document_editor_scroll.py - UnicodeDecodeError: 'charmap' co...
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+3294 tests collected, 1 error in 12.97s
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdk5lxdny.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdk5lxdny.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmps27_ptou.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmps27_ptou.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmph12h0af3.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmph12h0af3.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpahnw7liw.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpahnw7liw.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdskl5z0b.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdskl5z0b.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmp0a3jrldq.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmp0a3jrldq.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdm_8ip5a.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpdm_8ip5a.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpsgjx3rjy.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpsgjx3rjy.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpn_uvkm9b.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpn_uvkm9b.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmphah1x2f_.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmphah1x2f_.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpqilmp9p3.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpqilmp9p3.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpad_nayj4.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpad_nayj4.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpzf1k5wuy.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpzf1k5wuy.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpv31n2wzp.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpv31n2wzp.db'>
+Exception ignored in: <_io.FileIO name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpvo9259ky.db' mode='rb+' closefd=True>
+ResourceWarning: unclosed file <_io.BufferedRandom name='C:\\Users\\Admin\\AppData\\Local\\Temp\\tmpvo9259ky.db'>

@@ -1,0 +1,95 @@
+/* ============================================================
+   Style Theme: Pop Art
+   Lichtenstein-style: bold primary colors, thick black outlines,
+   ben-day dots, all-caps comic headings.
+   ============================================================ */
+
+[data-style-theme="pop-art"] {
+  --bg:           #fff100;
+  --fg:           #000000;
+  --panel:        #ffffff;
+  --border:       #000000;
+  --red:          #ed1c24;
+  --green:        #00a651;
+  --blue:         #00aeef;
+  --yellow:       #fff100;
+  --pink:         #ff66cc;
+
+  --hl-bg:        #ffffff;
+  --hl-fg:        #000000;
+  --hl-keyword:   #ed1c24;
+  --hl-string:    #00a651;
+  --hl-comment:   #888888;
+  --hl-function:  #00aeef;
+  --hl-number:    #ff66cc;
+  --hl-builtin:   #6a1b9a;
+  --hl-variable:  #000000;
+  --hl-params:    #444444;
+
+  --user-bubble-bg:   #00aeef;
+  --ai-bubble-bg:     #ffffff;
+  --bubble-border:    #000000;
+  --sidebar-bg:       #ffffff;
+  --section-accent:   #ed1c24;
+  --brand-color:      #ed1c24;
+  --input-bg:         #ffffff;
+  --input-border:     #000000;
+  --send-btn-bg:      #ed1c24;
+  --send-btn-hover:   #ff66cc;
+  --code-bg:          #ffffff;
+  --code-fg:          #000000;
+  --toggle-bg:        #ffffff;
+  --toggle-active:    #fff100;
+  --accent-primary:   #ed1c24;
+  --accent-error:     #ed1c24;
+  --hamburger-color:  #000000;
+  --bg-effect-color:  #000000;
+  --bg-effect-intensity: 0.15;
+  --font-family:      'Bangers', 'Impact', 'Arial Black', sans-serif;
+}
+
+[data-style-theme="pop-art"] body {
+  background-color: #fff100;
+  background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.18) 2px, transparent 3px);
+  background-size: 16px 16px;
+}
+
+/* Sharp corners + thick outlines everywhere */
+[data-style-theme="pop-art"] * { border-radius: 0 !important; }
+[data-style-theme="pop-art"] * {
+  border: 4px solid #000000 !important;
+}
+[data-style-theme="pop-art"] .modal-content,
+[data-style-theme="pop-art"] .send-btn,
+[data-style-theme="pop-art"] .list-item.active,
+[data-style-theme="pop-art"] .list-item.active-session {
+  box-shadow: 8px 8px 0 #000000 !important;
+}
+
+/* All-caps, bold text */
+[data-style-theme="pop-art"] body { text-transform: uppercase; font-weight: 900; }
+[data-style-theme="pop-art"] input,
+[data-style-theme="pop-art"] textarea { text-transform: none; }
+
+/* Chat bubbles pop with thick black border */
+[data-style-theme="pop-art"] .msg-user {
+  background-color: #00aeef !important;
+  color: #000000 !important;
+}
+[data-style-theme="pop-art"] .msg-ai {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Welcome with comic POW */
+[data-style-theme="pop-art"] .welcome-name {
+  color: #ed1c24 !important;
+  font-size: clamp(40px, 8vw, 72px) !important;
+  -webkit-text-stroke: 3px #000000;
+  text-shadow: 6px 6px 0 #000000;
+  letter-spacing: 0.1em !important;
+  transform: rotate(-3deg);
+}
+[data-style-theme="pop-art"] .welcome-name::before { content: "💥 "; }
+[data-style-theme="pop-art"] .welcome-name::after  { content: " 💥"; }

@@ -1,0 +1,5 @@
+{
+  "name": "Cronos Studio",
+  "description": "A fully user-defined NFT + DeFi lifecycle platform for Cronos (Creation → Metadata → IPFS → Contract → Minting → Trading).",
+  "requestFramePermissions": []
+}

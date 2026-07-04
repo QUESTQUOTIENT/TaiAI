@@ -1,0 +1,117 @@
+/* ============================================================
+   Style Theme: Claymorphic
+   Soft 3D clay-like surfaces with pastel colors and inner+outer shadows.
+   ============================================================ */
+
+[data-style-theme="claymorphic"] {
+  --bg:           #f0e8dc;
+  --fg:           #5a4a6a;
+  --panel:        #f8f0e0;
+  --border:       #d8c8b0;
+  --red:          #ff8a95;
+  --green:        #8ad8b0;
+  --blue:          #8ab8ff;
+  --lavender:     #c8a8ff;
+  --peach:        #ffb088;
+
+  --hl-bg:        #f8f0e0;
+  --hl-fg:        #5a4a6a;
+  --hl-keyword:   #c8a8ff;
+  --hl-string:    #8ad8b0;
+  --hl-comment:   #b0a098;
+  --hl-function:  #ff8a95;
+  --hl-number:    #ffb088;
+  --hl-builtin:   #8ab8ff;
+  --hl-variable:  #5a4a6a;
+  --hl-params:    #8a7a8a;
+
+  --user-bubble-bg:   #ffd8d8;
+  --ai-bubble-bg:     #d8e8ff;
+  --bubble-border:    #d8c8b0;
+  --sidebar-bg:       #f8f0e0;
+  --section-accent:   #c8a8ff;
+  --brand-color:      #c8a8ff;
+  --input-bg:         #f8f0e0;
+  --input-border:     #d8c8b0;
+  --send-btn-bg:      #c8a8ff;
+  --send-btn-hover:   #ffb088;
+  --code-bg:          #f8f0e0;
+  --code-fg:          #5a4a6a;
+  --toggle-bg:        #f8f0e0;
+  --toggle-active:    #c8a8ff;
+  --accent-primary:   #c8a8ff;
+  --accent-error:     #ff8a95;
+  --hamburger-color:  #c8a8ff;
+  --bg-effect-color:  #c8a8ff;
+  --bg-effect-intensity: 0.3;
+  --font-family:      'Quicksand', 'Nunito', system-ui, sans-serif;
+}
+
+[data-style-theme="claymorphic"] body {
+  background-color: #f0e8dc;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(200, 168, 255, 0.15) 0%, transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(255, 176, 136, 0.15) 0%, transparent 35%);
+  background-attachment: fixed;
+}
+
+/* Claymorphic = big rounded + soft double shadows (light from top-left) */
+[data-style-theme="claymorphic"] * { border-radius: 16px !important; }
+
+[data-style-theme="claymorphic"] .modal-content,
+[data-style-theme="claymorphic"] .sidebar,
+[data-style-theme="claymorphic"] .chat-input-bar,
+[data-style-theme="claymorphic"] .list-item,
+[data-style-theme="claymorphic"] button,
+[data-style-theme="claymorphic"] input,
+[data-style-theme="claymorphic"] textarea {
+  background-color: #f8f0e0 !important;
+  border: none !important;
+  box-shadow:
+    -8px -8px 16px rgba(255, 255, 255, 0.7),
+    8px 8px 24px rgba(180, 160, 140, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+[data-style-theme="claymorphic"] .send-btn,
+[data-style-theme="claymorphic"] #sendBtn {
+  background-image: linear-gradient(135deg, #c8a8ff, #ffb088) !important;
+  color: #ffffff !important;
+  box-shadow:
+    -6px -6px 12px rgba(255, 255, 255, 0.6),
+    6px 6px 18px rgba(180, 140, 180, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+[data-style-theme="claymorphic"] .send-btn:hover,
+[data-style-theme="claymorphic"] #sendBtn:hover {
+  box-shadow:
+    -4px -4px 8px rgba(255, 255, 255, 0.7),
+    4px 4px 12px rgba(180, 140, 180, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+[data-style-theme="claymorphic"] .send-btn:active,
+[data-style-theme="claymorphic"] #sendBtn:active {
+  box-shadow:
+    inset -2px -2px 4px rgba(255, 255, 255, 0.5),
+    inset 2px 2px 4px rgba(180, 140, 180, 0.4) !important;
+  transform: translateY(1px);
+}
+
+/* Active list items pressed-in */
+[data-style-theme="claymorphic"] .list-item.active,
+[data-style-theme="claymorphic"] .list-item.active-session {
+  background-color: #e8d8c0 !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(180, 160, 140, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Welcome */
+[data-style-theme="claymorphic"] .welcome-name {
+  color: #c8a8ff !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-shadow: 4px 4px 0 rgba(255, 176, 136, 0.3);
+}

@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Android signing (never commit secrets!)
+gradle.properties
+# Keystore location (default)
+.crolana/
+*.jks
+*.keystore
+
+# Database
+db.json
+db.json.tmp
+*.db
+*.sqlite
+
+# Uploads (user files)
+uploads/
+!uploads/.gitkeep
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Prisma generated client (regenerated on install)
+node_modules/.prisma/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Vite cache
+.vite/
+
+# Test coverage
+coverage/
+
+# Docker volumes (local dev)
+postgres-data/
+redis-data/
+
+# Android
+android/.gradle
+android/local.properties
+android/captures/
+android/.idea
+android/*.iml
+

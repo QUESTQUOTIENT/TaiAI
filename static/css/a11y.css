@@ -1,0 +1,84 @@
+cat >> D:/tieai-py-dev/static/style.css << 'CSS'
+
+
+/* ===== A11Y: HIGH-CONTRAST THEME ===== */
+/*
+ * Phase 1.5 high-contrast theme. Apply by adding `a11y-high-contrast`
+ * to <body>. Designed to meet WCAG AAA (7:1 for body text) regardless
+ * of which color theme the user picked.
+ */
+body.a11y-high-contrast {
+  --bg: #000000;
+  --fg: #ffffff;
+  --panel: #0a0a0a;
+  --sidebar-bg: #000000;
+  --border: #ffffff;
+  --accent: #ffff00;
+  --brand-color: #ffffff;
+  --user-bubble-bg: #1a1a1a;
+  --ai-bubble-bg: #000000;
+  --bubble-border: #ffffff;
+  --code-bg: #1a1a1a;
+  --code-fg: #ffffff;
+  --input-bg: #000000;
+  --input-border: #ffffff;
+  --send-btn-bg: #ffffff;
+  --send-btn-fg: #000000;
+  --toggle-bg: #000000;
+  --toggle-active-bg: #ffff00;
+  --section-accent: #ffff00;
+  --red: #ff5555;
+}
+body.a11y-high-contrast * {
+  border-color: #ffffff !important;
+}
+body.a11y-high-contrast .list-item,
+body.a11y-high-contrast .modal-content,
+body.a11y-high-contrast .admin-card,
+body.a11y-high-contrast .settings-nav-item {
+  border: 1px solid #ffffff !important;
+}
+body.a11y-high-contrast a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* Always show focus rings when high-contrast is on */
+body.a11y-high-contrast :focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 2px !important;
+}
+
+
+/* ===== TOUCH TARGETS ===== */
+/* Phase 1.5: enforce minimum 44x44 hit area on mobile (WCAG 2.5.5 / Apple HIG). */
+@media (hover: none) and (pointer: coarse) {
+  .icon-rail-btn,
+  .list-item,
+  button.admin-btn-add,
+  button.admin-btn-sm,
+  .modal-close,
+  .close-btn,
+  .theme-adv-toggle,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .list-item { padding: 10px 14px; }
+}
+
+
+/* ===== REDUCED MOTION ===== */
+/* Phase 1.5: respect prefers-reduced-motion in JS animations too. The
+ * body class is toggled by reducedMotion.js when the media query matches.
+ * Animations under @media (prefers-reduced-motion: reduce) are already
+ * disabled; this class extends the same policy to JS-set transitions.
+ */
+body.a11y-reduced-motion *,
+body.a11y-reduced-motion *::before,
+body.a11y-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
