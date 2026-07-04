@@ -61,7 +61,7 @@ pull request guidelines.
 
 ### Docker (recommended)
 ```bash
-git clone https://github.com/TieAI-archdaemon/TaiAi.git
+git clone https://github.com/QUESTQUOTIENT/TaiAI.git
 cd TaiAi
 cp .env.example .env       # optional, but recommended for explicit defaults
 docker compose up -d --build
