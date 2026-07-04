@@ -1,6 +1,6 @@
 # TaiAi
 
-> **Branch note:** `dev` is the default branch and contains the latest development changes, but it may be unstable. For the more stable curated branch, use [`main`](https://github.com/TieAI-archdaemon/TaiAi/tree/main).
+> **Branch note:** `dev` is the default branch and contains the latest development changes, but it may be unstable. For the more stable curated branch, use [`main`](https://github.com/QUESTQUOTIENT/TaiAI/tree/main).
 
 ```
 ───────────────────────────────────────────────
@@ -75,7 +75,7 @@ only when you intentionally want LAN/reverse-proxy access.
 
 ### Native Linux / macOS
 ```bash
-git clone https://github.com/TieAI-archdaemon/TaiAi.git
+git clone https://github.com/QUESTQUOTIENT/TaiAI.git
 cd TaiAi
 python3 -m venv venv
 source venv/bin/activate
