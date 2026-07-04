@@ -93,7 +93,7 @@ Docker on macOS cannot use the Metal GPU. For GPU-accelerated Cookbook on an
 M-series Mac, run TaiAi natively:
 
 ```bash
-git clone https://github.com/TieAI-archdaemon/TaiAi.git
+git clone https://github.com/QUESTQUOTIENT/TaiAI.git
 cd TaiAi
 ./start-macos.sh
 ```
