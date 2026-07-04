@@ -25,7 +25,7 @@ End-users cloning the repo will land on `dev` by default. To run the curated/sta
 Docker is the recommended path for normal testing:
 
 ```bash
-git clone https://github.com/TieAI-archdaemon/TaiAi.git
+git clone https://github.com/QUESTQUOTIENT/TaiAI.git
 cd TaiAi
 cp .env.example .env
 docker compose up -d --build
