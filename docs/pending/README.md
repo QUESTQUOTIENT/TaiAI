@@ -102,3 +102,13 @@ All five pass on this branch. Until they are *required*, nothing prevents a
 regression to the starting state — which is how a syntax error reached `main`
 in a script `index.html` loads, and how a security scanner sat red for days
 without ever scanning.
+
+---
+
+## Already applied in `TaiAi-source.zip`
+
+The distributable archive built by `build_zip.py` is produced from a tree with
+this patch **already applied**. Uploading that zip therefore carries the
+workflow fixes with it — the App-token restriction only affects `git push`, not
+a manual upload. If you take the zip route you do not need to apply the patch
+separately; it is kept here for the git-based path.

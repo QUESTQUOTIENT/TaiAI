@@ -21,8 +21,10 @@ KEEP_TOP = {
     ".dockerignore",
     ".env.example",
     ".gitattributes",
+    ".gitignore",
     ".github",
     "ACKNOWLEDGMENTS.md",
+    "AUDIT.md",
     "CONTRIBUTING.md",
     "Dockerfile",
     "LICENSE",
@@ -30,9 +32,12 @@ KEEP_TOP = {
     "ROADMAP.md",
     "SECURITY.md",
     "THREAT_MODEL.md",
+    "UPDATE-PLAN.md",
+    "UPDATE-REPORT.md",
     "TaiAi-ui.service",
     "app.py",
     "build-macos-app.sh",
+    "build_zip.py",
     "companion",
     "config",
     "core",
@@ -42,14 +47,14 @@ KEEP_TOP = {
     "docker-compose.yml",
     "docs",
     "find_missing.js",
-    "idea",
     "install-service.sh",
+    "integrations",
     "launch-windows.ps1",
+    "licenses",
     "mcp_servers",
     "package-lock.json",
     "package.json",
     "pyproject.toml",
-    "pytest.ini",
     "requirements-optional.txt",
     "requirements.lock",
     "requirements.txt",
@@ -124,7 +129,6 @@ EXCLUDE_FILE_PATTERNS = (
     "compound.config.json",
     "search_analytics.json",
     "output.txt.txt",
-    "TaiAi",  # local dist folder per .gitignore line 92
 )
 
 # docs/ gets its own file-ext allow-list because the repo ships demo
@@ -135,8 +139,22 @@ DOCS_ALLOWED_MEDIA_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 import fnmatch
 
 
+# Directories that look excluded by name but must ship anyway. Mirrors the
+# carve-outs in .gitignore (lines 20-21): "data" is globally excluded because
+# it holds the user's runtime state, but services/hwfit/data/hf_models.json is
+# a tracked 486 KB model catalog that Cookbook's hardware-fit scoring needs.
+# Without it the catalog loads empty and 13 hwfit tests fail in the shipped
+# archive while passing in the repo.
+KEEP_DIR_PREFIXES = (
+    ("services", "hwfit", "data"),
+)
+
+
 def should_skip_dir(rel_dir: Path) -> bool:
     parts = rel_dir.parts
+    for keep in KEEP_DIR_PREFIXES:
+        if parts[:len(keep)] == keep:
+            return False
     for p in parts:
         if p in EXCLUDE_DIR_NAMES:
             return True
@@ -145,6 +163,11 @@ def should_skip_dir(rel_dir: Path) -> bool:
 
 def should_skip_file(rel_file: Path) -> bool:
     name = rel_file.name
+    # The local "/TaiAi" dist folder (.gitignore line 92) is top-level only.
+    # Matching it by basename would also drop scripts/TaiAi, the dispatcher
+    # that every shipped TaiAi-* subcommand is invoked through.
+    if rel_file.parts == ("TaiAi",):
+        return True
     # PWA icons are intentional ship assets (manifest.json references them)
     # even though we globally exclude *.png — carve them out before the
     # pattern check runs.
