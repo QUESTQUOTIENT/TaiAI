@@ -1,5 +1,12 @@
 # TaiAi — Full Update Plan
 
+> **✅ EXECUTED 2026-07-28.** Phases 1–6.1 are implemented, verified and
+> committed on `arena/019fa707-taiai`. See `UPDATE-REPORT.md` for the
+> as-built record, including four bugs found during execution that this plan
+> did not anticipate. Remaining open items (all P3/XL, deliberately deferred):
+> §6.2 eslint, §6.3 splitting the 5k–10k-line modules, §6.4 narrowing broad
+> `except Exception`, §6.5 Alembic, §6.6 Cookbook cross-platform validation.
+
 **Date:** 2026-07-28
 **Baseline:** `362866c` on `main`; audit in [`AUDIT.md`](AUDIT.md)
 **Scope:** restore the quality gates, clear the security debt, then pay down structural debt.
