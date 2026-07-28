@@ -32,12 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -48,17 +46,8 @@ jobs:
         # --strict: any finding fails the build (vs the default which prints
         # only). --no-deps: only audit the project's direct deps, not their
         # transitive tree, so the scan stays fast and stable.
-        #
-        # NOTE: this previously passed --disable-pip instead of --no-deps, which
-        # pip-audit rejects outright ("the --disable-pip flag can only be used
-        # with a hashed requirements file or if the --no-deps flag has been
-        # provided") because requirements.lock carries no hashes. The job failed
-        # during argument parsing, so it had never actually scanned anything.
-        # If requirements.lock is ever regenerated with `pip-compile
-        # --generate-hashes`, --disable-pip becomes valid and is the stricter
-        # choice.
         run: |
           python -m pip_audit \
             --requirement requirements.lock \
             --strict \
-            --no-deps
+            --disable-pip

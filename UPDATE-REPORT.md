@@ -4,6 +4,17 @@
 **Branch:** `arena/019fa707-taiai` · **Baseline:** `362866c` on `main`
 **Companion docs:** [`AUDIT.md`](AUDIT.md) (findings) · [`UPDATE-PLAN.md`](UPDATE-PLAN.md) (plan)
 
+> **⚠️ One part of this pass could not be pushed.** The automation account
+> authenticates as a GitHub App without the `workflows` permission, so GitHub
+> rejects any commit touching `.github/workflows/`. Those three files are
+> therefore staged as a patch at
+> [`docs/pending/ci-workflows.patch`](docs/pending/ci-workflows.patch) with
+> apply instructions in [`docs/pending/README.md`](docs/pending/README.md).
+> Everything else — dependency upgrades, test fixes, source bug fixes,
+> `core/degraded.py` — is committed normally. The CI changes were written and
+> verified locally (ruff clean, 162/162 `node --check`, pip-audit clean,
+> zizmor 0 high/medium) before being extracted.
+
 Every claim here was verified by running the thing, not by reading the diff.
 
 ---
