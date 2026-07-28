@@ -957,6 +957,30 @@ async def readiness_check() -> JSONResponse:
     result = check_readiness()
     return JSONResponse(status_code=200 if result.get("ready") else 503, content=result)
 
+@app.get("/api/setup-status")
+async def setup_status(request: Request) -> Dict[str, object]:
+    """Per-subsystem provisioning status for the first-run experience.
+
+    Distinguishes "never configured" (expected on a fresh install) from
+    "configured but failing" (actually wrong), and returns an actionable
+    reason/impact/fix triple for each. Without this the only signal a new user
+    gets is empty arrays and DEGRADED log lines, which makes fully-implemented
+    but unprovisioned features look broken.
+
+    Authenticated but not admin-gated: it deliberately reports no secrets, no
+    hostnames beyond what the operator configured, and no version detail — just
+    whether each capability is usable and how to enable it. The Settings UI
+    needs it for any signed-in user.
+    """
+    user = getattr(request.state, "current_user", None)
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required")
+
+    from core.degraded import collect_all, summarize
+
+    return summarize(collect_all())
+
+
 @app.get("/api/runtime")
 async def runtime_info(request: Request) -> Dict[str, object]:
     # P2-29: was unauthenticated and leaked internal state (in_docker +
@@ -1419,6 +1443,33 @@ async def _startup_event():
     # removes the feature.
     from src.cookbook_serve_lifecycle import cookbook_serve_lifecycle_loop
     _startup_tasks.append(asyncio.create_task(cookbook_serve_lifecycle_loop()))
+
+    # Summarise which optional subsystems are unprovisioned, in the same
+    # reason/impact/fix shape the built-in Browser MCP server uses. Scattered
+    # "init failed" / "DEGRADED" lines above tell an operator something is
+    # wrong but not what to do; this block does. Best-effort by construction —
+    # a status summary must never be able to break startup.
+    try:
+        from core.degraded import Status, collect_all
+
+        _subsystems = collect_all()
+        _needs_attention = [s for s in _subsystems if not s.ok]
+        if _needs_attention:
+            _ready = len(_subsystems) - len(_needs_attention)
+            logger.info(
+                "Setup status: %d/%d subsystems ready. "
+                "The following are implemented but not yet provisioned — "
+                "TaiAi runs fine without them:",
+                _ready,
+                len(_subsystems),
+            )
+            for _s in _needs_attention:
+                _log = logger.warning if _s.status is Status.DEGRADED else logger.info
+                for _line in _s.as_log_block().split("\n"):
+                    _log("  %s", _line)
+            logger.info("Full detail: GET /api/setup-status")
+    except Exception as _e:  # noqa: BLE001
+        logger.debug("Setup-status summary skipped: %s", _e)
 
     logger.info("Application startup complete")
 
