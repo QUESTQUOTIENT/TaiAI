@@ -1,7 +1,25 @@
 # Phase A — Existing Work Audit
 
+> **⚠️ SUPERSEDED — historical record only (added 2026-07-28).**
+>
+> This report is from an earlier single-session audit pass and its numbers no
+> longer describe the repository. It is retained for provenance, not guidance.
+>
+> Known inaccuracies:
+> * Failing-test counts here (in the 135–152 range) reflect a run whose pytest
+>   invocation could not even start — `pytest.ini` shadowed `pyproject.toml` and
+>   omitted five `area_*` markers, so collection aborted with an INTERNALERROR.
+>   Measured on 2026-07-28 after that was fixed: **27 failed + 3 errors**, all of
+>   which were test-infrastructure drift rather than broken features. The suite
+>   is now **3416 passed / 2 skipped**, stable across three consecutive runs.
+> * Absolute paths belonging to the original author's machine have been scrubbed.
+>
+> For the current, evidence-backed picture see `AUDIT.md` and `UPDATE-PLAN.md`
+> at the repository root.
+
+
 **Repo path:** `D:\tieai-py-dev` (Windows).  
-**Reference prompt path** `/home/workdir/attachments/TaiAi-source-upgraded.zip` — NOT PRESENT on this machine; the working tree IS the previously-modified repository. `TaiAi-source.zip` is the source archive.
+**Reference prompt path** `<attachment path>` — NOT PRESENT on this machine; the working tree IS the previously-modified repository. `TaiAi-source.zip` is the source archive.
 
 ## Inventory
 

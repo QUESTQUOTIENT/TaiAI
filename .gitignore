@@ -50,6 +50,10 @@ Thumbs.db
 *.cache
 cache/
 output.txt.txt
+# Distributable source archive produced by build_zip.py. Regenerable, ~23 MB,
+# and was previously committed — half the repo's total size. Ship it as a
+# GitHub release asset instead of tracking it.
+TaiAi-source.zip
 
 # Media (uploaded/generated)
 *.jpg

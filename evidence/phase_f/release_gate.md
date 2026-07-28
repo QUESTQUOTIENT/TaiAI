@@ -1,6 +1,24 @@
 # Phase F — Final Release Gate Report
 
-**Status:** Single-session audit + verification pass. Reports **and** working code changes (60 new tests, all passing). All claims below are backed by evidence in `evidence/phase_a/`, `evidence/phase_b/`, `evidence/phase_d/`, plus fresh full-suite logs at `/c/Users/Admin/test_after2.out`.
+> **⚠️ SUPERSEDED — historical record only (added 2026-07-28).**
+>
+> This report is from an earlier single-session audit pass and its numbers no
+> longer describe the repository. It is retained for provenance, not guidance.
+>
+> Known inaccuracies:
+> * Failing-test counts here (in the 135–152 range) reflect a run whose pytest
+>   invocation could not even start — `pytest.ini` shadowed `pyproject.toml` and
+>   omitted five `area_*` markers, so collection aborted with an INTERNALERROR.
+>   Measured on 2026-07-28 after that was fixed: **27 failed + 3 errors**, all of
+>   which were test-infrastructure drift rather than broken features. The suite
+>   is now **3416 passed / 2 skipped**, stable across three consecutive runs.
+> * Absolute paths belonging to the original author's machine have been scrubbed.
+>
+> For the current, evidence-backed picture see `AUDIT.md` and `UPDATE-PLAN.md`
+> at the repository root.
+
+
+**Status:** Single-session audit + verification pass. Reports **and** working code changes (60 new tests, all passing). All claims below are backed by evidence in `evidence/phase_a/`, `evidence/phase_b/`, `evidence/phase_d/`, plus fresh full-suite logs at `<local run log>`.
 
 ## Implementation Summary
 
@@ -25,48 +43,48 @@ This audit pass produced **diagnostic reports + working code changes** that are 
 
 ## Files Modified
 
-- `D:/tieai-py-dev/scripts/TaiAi-backup` — bomb-cap enforcement + optional AES-GCM encryption (`--encrypt`, `--passphrase-file`) + `--preview` dry-run.
-- `D:/tieai-py-dev/routes/backup_routes.py` — DoS guards on `/api/import` (64 MiB body / 32 nesting depth / 4 MiB field). File structure also rewritten cleanly (original file had decorators stranded outside the `setup_backup_routes` function — fixed as a side-effect of this work).
-- `D:/tieai-py-dev/routes/cookbook_routes.py` — `cookbook_error_categorize` emits events on the shared bus.
+- `scripts/TaiAi-backup` — bomb-cap enforcement + optional AES-GCM encryption (`--encrypt`, `--passphrase-file`) + `--preview` dry-run.
+- `routes/backup_routes.py` — DoS guards on `/api/import` (64 MiB body / 32 nesting depth / 4 MiB field). File structure also rewritten cleanly (original file had decorators stranded outside the `setup_backup_routes` function — fixed as a side-effect of this work).
+- `routes/cookbook_routes.py` — `cookbook_error_categorize` emits events on the shared bus.
 
 ## Files Modified
 
-- `D:/tieai-py-dev/scripts/TaiAi-backup` — bomb-cap enforcement + optional AES-GCM encryption (`--encrypt`, `--passphrase-file`).
+- `scripts/TaiAi-backup` — bomb-cap enforcement + optional AES-GCM encryption (`--encrypt`, `--passphrase-file`).
 
 ## New Files (delivered by this audit pass)
 
 ### Code
-- `D:/tieai-py-dev/core/events.py`
-- `D:/tieai-py-dev/services/backup/__init__.py`
-- `D:/tieai-py-dev/services/backup/safety.py`
-- `D:/tieai-py-dev/services/backup/crypto.py`
+- `core/events.py`
+- `services/backup/__init__.py`
+- `services/backup/safety.py`
+- `services/backup/crypto.py`
 
 ### Tests (86 total)
-- `D:/tieai-py-dev/tests/test_core_events.py` (21 tests)
-- `D:/tieai-py-dev/tests/test_backup_safety.py` (11 tests)
-- `D:/tieai-py-dev/tests/test_backup_crypto.py` (20 tests, 1 skip)
-- `D:/tieai-py-dev/tests/test_backup_cli_integration.py` (12 tests)
-- `D:/tieai-py-dev/tests/test_backup_routes_dos_guards.py` (15 tests)
-- `D:/tieai-py-dev/tests/test_cookbook_event_bus.py` (7 tests)
+- `tests/test_core_events.py` (21 tests)
+- `tests/test_backup_safety.py` (11 tests)
+- `tests/test_backup_crypto.py` (20 tests, 1 skip)
+- `tests/test_backup_cli_integration.py` (12 tests)
+- `tests/test_backup_routes_dos_guards.py` (15 tests)
+- `tests/test_cookbook_event_bus.py` (7 tests)
 
 ### Reports
-- `D:/tieai-py-dev/evidence/phase_a/audit_report.md`
-- `D:/tieai-py-dev/evidence/phase_b/baseline_report.md`
-- `D:/tieai-py-dev/evidence/phase_d/feature_assessment.md`
-- `D:/tieai-py-dev/evidence/phase_f/release_gate.md` (this file)
+- `evidence/phase_a/audit_report.md`
+- `evidence/phase_b/baseline_report.md`
+- `evidence/phase_d/feature_assessment.md`
+- `evidence/phase_f/release_gate.md` (this file)
 
 ### Logs
-- `/c/Users/Admin/test_full.out`, `test_full.err` (original baseline: 152.63 s, 3136 pass / 137 fail / 22 err / 3 skip)
-- `/c/Users/Admin/test_after.out` (after first iteration: 149 fail / 7 err — caught backup-security regression)
-- `/c/Users/Admin/test_after2.out` (after fix: 146 fail / 7 err / 4 skip, +66 net passing tests)
-- `/c/Users/Admin/test_after3.out` (after restore-preview + DoS guards: 146 fail / 7 err / 4 skip, +85 net passing tests)
-- `/c/Users/Admin/test_after4.out` (after cookbook event migration: 147 fail / 6 err / 4 skip, +92 net passing tests; +1 fail is order-dependent flake, not regression)
-- `/c/Users/Admin/test_after5.out` (after `test_code_nav_tools.py` triage: 134 fail / 8 err / 4 skip, +104 net passing tests; net −3 fails vs original baseline)
-- `/c/Users/Admin/test_after6.out` (after backup CLI event migration: 135 fail / 8 err / 4 skip, +110 net passing tests; net −2 fails vs original baseline)
-- `/c/Users/Admin/test_after7.out` (after Compare Mode event migration: 136 fail / 7 err / 4 skip, +113 net passing tests; net −1 fail vs original baseline)
-- `/c/Users/Admin/test_after8.out` (after Diagnostics observer subscription: 136 fail / 7 err / 4 skip, +125 net passing tests; net −1 fail vs original baseline)
-- `/c/Users/Admin/test_after9.out` (after Research event migration: 137 fail / 6 err / 4 skip, +131 net passing tests; net 0 fails vs original baseline)
-- `/c/Users/Admin/test_after10.out` (after Browser MCP `--caps vision` fix: 135 fail / 7 err / 4 skip, +137 net passing tests; net −2 fails vs original baseline)
+- `<local run log>`, `test_full.err` (original baseline: 152.63 s, 3136 pass / 137 fail / 22 err / 3 skip)
+- `<local run log>` (after first iteration: 149 fail / 7 err — caught backup-security regression)
+- `<local run log>` (after fix: 146 fail / 7 err / 4 skip, +66 net passing tests)
+- `<local run log>` (after restore-preview + DoS guards: 146 fail / 7 err / 4 skip, +85 net passing tests)
+- `<local run log>` (after cookbook event migration: 147 fail / 6 err / 4 skip, +92 net passing tests; +1 fail is order-dependent flake, not regression)
+- `<local run log>` (after `test_code_nav_tools.py` triage: 134 fail / 8 err / 4 skip, +104 net passing tests; net −3 fails vs original baseline)
+- `<local run log>` (after backup CLI event migration: 135 fail / 8 err / 4 skip, +110 net passing tests; net −2 fails vs original baseline)
+- `<local run log>` (after Compare Mode event migration: 136 fail / 7 err / 4 skip, +113 net passing tests; net −1 fail vs original baseline)
+- `<local run log>` (after Diagnostics observer subscription: 136 fail / 7 err / 4 skip, +125 net passing tests; net −1 fail vs original baseline)
+- `<local run log>` (after Research event migration: 137 fail / 6 err / 4 skip, +131 net passing tests; net 0 fails vs original baseline)
+- `<local run log>` (after Browser MCP `--caps vision` fix: 135 fail / 7 err / 4 skip, +137 net passing tests; net −2 fails vs original baseline)
 
 ## Deleted Files
 
