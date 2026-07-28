@@ -1,5 +1,14 @@
 # Pending CI workflow changes
 
+> **Applying this?** Read
+> [`BRANCH-PROTECTION.md`](BRANCH-PROTECTION.md) first. It is the corrected,
+> verified runbook for the patch **and** the branch-protection rule, and it
+> documents three traps that would otherwise produce a rule enforcing nothing:
+> required checks match the `name:` field rather than the job ID, there are two
+> different `pip-audit *` checks (one is `continue-on-error`), and
+> `pip-audit (Python deps)` is path-filtered so requiring it deadlocks every PR
+> that does not touch `requirements.*`.
+
 `ci-workflows.patch` holds the `.github/workflows/` half of the update pass
 described in [`../../UPDATE-REPORT.md`](../../UPDATE-REPORT.md).
 
