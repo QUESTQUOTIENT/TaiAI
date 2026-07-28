@@ -1,0 +1,149 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 662c0a4..c5a33b9 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -19,32 +19,62 @@ jobs:
+     name: Python syntax (compileall)
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
++      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+         with:
+           persist-credentials: false
+-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+         with:
+           python-version: "3.11"
+       # Byte-compile sources — catches syntax errors without installing deps.
+       - run: python -m compileall -q app.py core routes src services scripts tests
+ 
++  python-lint:
++    name: Python lint (ruff, error subset)
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
++        with:
++          persist-credentials: false
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
++        with:
++          python-version: "3.11"
++      # Deliberately a narrow, high-signal subset rather than ruff's defaults:
++      #   E9  syntax / IO errors
++      #   F63 comparison mistakes (e.g. `is` on literals, always-true asserts)
++      #   F7  syntax-adjacent statement misuse (break outside loop, ...)
++      #   F82 undefined names
++      # These are bugs, not style, so the job can be required without forcing a
++      # repo-wide reformat. Adding it caught five live F821 NameErrors that
++      # compileall cannot see because the modules import fine and only fail when
++      # the offending line executes (/api/diagnostics, /api/health/deep, session
++      # cleanup, cookbook log streaming).
++      #
++      # Ratchet: widen --select over time; do not silently relax it.
++      - run: pip install ruff==0.16.0
++      - run: ruff check --select E9,F63,F7,F82 app.py core routes src services scripts tests
++
+   node-syntax:
+     name: JS syntax (node --check)
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
++      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+         with:
+           persist-credentials: false
+-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
++      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
+         with:
+           node-version: "20"
+       # Syntax-check our own JS (skip vendored libs in static/lib).
++      #
++      # This previously globbed only `static/app.js static/js/**/*.js`, which
++      # silently skipped the other three top-level scripts — including
++      # static/sw.js, the service worker registered by index.html and
++      # coding.html. It had an unbalanced arrow-function body and could not
++      # parse, so PWA offline caching was dead and CI could not see it.
++      # Enumerate every non-vendored .js instead of hand-listing paths.
+       - name: node --check
+         run: |
+-          shopt -s globstar nullglob
+-          for f in static/app.js static/js/**/*.js; do
+-            node --check "$f"
+-          done
++          find static -name '*.js' -not -path 'static/lib/*' -print0 \
++            | xargs -0 -n1 -P4 node --check
+ 
+   python-tests:
+     name: Python tests (pytest)
+@@ -54,7 +84,7 @@ jobs:
+     # then, individual test files can be marked xfail/skip without failing
+     # the whole job, but a NEW failure surfaces the same PR.
+     steps:
+-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
++      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+         with:
+           fetch-depth: 0
+           persist-credentials: false
+@@ -81,7 +111,7 @@ jobs:
+             echo "docs_only=false" >> "$GITHUB_OUTPUT"
+           fi
+ 
+-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+         if: steps.docs-check.outputs.docs_only != 'true'
+         with:
+           python-version: "3.11"
+diff --git a/.github/workflows/pip-audit.yml b/.github/workflows/pip-audit.yml
+index 01d66a0..79316e8 100644
+--- a/.github/workflows/pip-audit.yml
++++ b/.github/workflows/pip-audit.yml
+@@ -32,10 +32,12 @@ jobs:
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
++        with:
++          persist-credentials: false
+ 
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+         with:
+           python-version: '3.12'
+ 
+@@ -46,8 +48,17 @@ jobs:
+         # --strict: any finding fails the build (vs the default which prints
+         # only). --no-deps: only audit the project's direct deps, not their
+         # transitive tree, so the scan stays fast and stable.
++        #
++        # NOTE: this previously passed --disable-pip instead of --no-deps, which
++        # pip-audit rejects outright ("the --disable-pip flag can only be used
++        # with a hashed requirements file or if the --no-deps flag has been
++        # provided") because requirements.lock carries no hashes. The job failed
++        # during argument parsing, so it had never actually scanned anything.
++        # If requirements.lock is ever regenerated with `pip-compile
++        # --generate-hashes`, --disable-pip becomes valid and is the stricter
++        # choice.
+         run: |
+           python -m pip_audit \
+             --requirement requirements.lock \
+             --strict \
+-            --disable-pip
++            --no-deps
+diff --git a/.github/workflows/theme-contrast-audit.yml b/.github/workflows/theme-contrast-audit.yml
+index 5d2ea83..78eee06 100644
+--- a/.github/workflows/theme-contrast-audit.yml
++++ b/.github/workflows/theme-contrast-audit.yml
+@@ -29,9 +29,11 @@ jobs:
+     runs-on: ubuntu-latest
+     timeout-minutes: 5
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
++        with:
++          persist-credentials: false
+ 
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+         with:
+           python-version: '3.12'
+ 

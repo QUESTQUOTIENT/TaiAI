@@ -46,7 +46,7 @@ loguru==0.7.3
 lxml==6.1.1
 Markdown==3.10.2
 markdown-it-py==4.2.0
-mcp==1.27.2
+mcp==1.28.1
 mdurl==0.1.2
 mmh3==5.2.1
 msgpack==1.2.1
@@ -64,7 +64,7 @@ orjson==3.11.9
 overrides==7.7.0
 packageurl-python==0.17.6
 packaging==26.2
-pillow==12.2.0
+pillow==12.3.0
 pip-api==0.0.34
 pip-requirements-parser==32.0.1
 pip_audit==2.10.1
@@ -76,19 +76,19 @@ py_rust_stemmers==0.1.8
 pybase64==1.4.3
 pycparser==3.0
 pydantic==2.13.4
-pydantic-settings==2.14.1
+pydantic-settings==2.14.2
 pydantic_core==2.46.4
 Pygments==2.20.0
 PyJWT==2.13.0
 pyotp==2.9.0
 pyparsing==3.3.2
-pypdf==6.13.3
+pypdf==6.14.2
 pytest==9.0.3
 pytest-asyncio==1.4.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 python-multipart==0.0.32
-pywin32==312
+pywin32==312 ; sys_platform == "win32"
 PyYAML==6.0.3
 qh3==1.9.2
 qrcode==8.2

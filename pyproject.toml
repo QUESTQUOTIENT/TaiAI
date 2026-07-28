@@ -1,6 +1,34 @@
 [tool.pytest.ini_options]
+# Single source of truth for pytest configuration.
+#
+# NOTE: a legacy `pytest.ini` used to live alongside this file. pytest gives
+# `pytest.ini` precedence over `pyproject.toml`, so that file silently shadowed
+# everything here — including the area_* markers below, which
+# tests/conftest.py adds at collection time under --strict-markers. The result
+# was a hard INTERNALERROR ("'area_services' not found in markers") on a bare
+# `python -m pytest`, i.e. the CI test job could never run. `pytest.ini` has
+# been removed and its unique settings merged in here; do not reintroduce it.
 testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--tb=short",
+]
+
+# asyncio_mode: "auto", deliberately.
+#
+# The old pytest.ini set "strict", which requires every async test to carry an
+# explicit @pytest.mark.asyncio. 22 async tests across 15 files have no such
+# marker (e.g. tests/test_calendar_rrule.py, tests/test_upload_multifile.py),
+# so under "strict" they are collected but never executed — silently passing
+# without running. "auto" runs them. If this is ever flipped back to "strict",
+# those 22 tests must be marked first or real coverage is lost.
 asyncio_mode = "auto"
+
 # Test-taxonomy markers added at collection time by tests/conftest.py. The
 # stable area_* markers are declared here; the dynamic sub_<filename-token>
 # markers are registered before collection by pytest_configure in
@@ -15,8 +43,37 @@ markers = [
     "area_helpers: self-tests for the shared test helpers in tests/helpers/",
     "area_unit: pure parser / utility tests that do not clearly belong elsewhere",
     "area_uncategorized: tests not yet matched by the taxonomy (fallback)",
+    # Legacy area_* markers retained from pytest.ini. The taxonomy in
+    # tests/_taxonomy.py no longer emits these, but they are kept registered so
+    # any straggler @pytest.mark usage in a test file does not fail under
+    # --strict-markers.
+    "area_db: Database / SQL tests",
+    "area_api: API integration tests",
+    "area_core: Core module tests (diagnostics, agent_profiles, research_presets, etc)",
+    "area_a11y: Accessibility / theme tests",
+    # Stable sub_* markers carried over from pytest.ini. Most sub_* markers are
+    # registered dynamically by tests/conftest.py from test filenames; these are
+    # the hand-written ones that predate the taxonomy.
+    "sub_owner_scope: Owner-scoping security tests",
+    "sub_xss: XSS regression tests",
+    "sub_ssrf: SSRF regression tests",
+    "sub_path_traversal: Path traversal tests",
+    "sub_integrity: Backup integrity / hashing tests",
+    "sub_slim: Slim Agent Mode tests",
     # Fast-lane marker (issue #3443). Opt-in and orthogonal to the area_*/sub_*
     # taxonomy. The fast lane runs `not slow`; mark a test slow only with
     # duration evidence (see tests/run_focus.py --durations and tests/README.md).
     "slow: opt-in marker for known-slow tests; excluded by the fast lane (not slow)",
+]
+
+# Treat warnings as errors so deprecations surface in CI rather than rotting.
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:websockets.*",
+    "ignore::DeprecationWarning:uvloop.*",
+    "ignore::sqlalchemy.exc.MovedIn20Warning",
+    "ignore::sqlalchemy.exc.SAWarning",
+    "ignore::DeprecationWarning:chromadb.*",
+    "ignore::DeprecationWarning:posthog.*",
+    "ignore::pytest.PytestUnknownMarkWarning",
 ]

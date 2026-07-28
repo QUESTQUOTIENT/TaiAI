@@ -88,7 +88,7 @@
         '">Install</button>' +
       '<button type="button" id="TaiAi-install-dismiss" aria-label="Dismiss install banner" style="' +
         'appearance:none;border:none;background:transparent;color:var(--fg,#e8e8f0);opacity:0.5;' +
-        'cursor:pointer;font:inherit;padding:4px 6px;font-size:16px;line-height:1;" +
+        'cursor:pointer;font:inherit;padding:4px 6px;font-size:16px;line-height:1;' +
         '">✕</button>';
     document.body.appendChild(el);
     return el;

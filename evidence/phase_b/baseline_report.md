@@ -1,5 +1,23 @@
 # Phase B — Baseline Validation Report
 
+> **⚠️ SUPERSEDED — historical record only (added 2026-07-28).**
+>
+> This report is from an earlier single-session audit pass and its numbers no
+> longer describe the repository. It is retained for provenance, not guidance.
+>
+> Known inaccuracies:
+> * Failing-test counts here (in the 135–152 range) reflect a run whose pytest
+>   invocation could not even start — `pytest.ini` shadowed `pyproject.toml` and
+>   omitted five `area_*` markers, so collection aborted with an INTERNALERROR.
+>   Measured on 2026-07-28 after that was fixed: **27 failed + 3 errors**, all of
+>   which were test-infrastructure drift rather than broken features. The suite
+>   is now **3416 passed / 2 skipped**, stable across three consecutive runs.
+> * Absolute paths belonging to the original author's machine have been scrubbed.
+>
+> For the current, evidence-backed picture see `AUDIT.md` and `UPDATE-PLAN.md`
+> at the repository root.
+
+
 **Environment:** Windows 11, Python 3.11 (venv), pytest 9.0.3.  
 **Date:** 2026-06-20.
 
@@ -104,11 +122,11 @@ Command:
 ## Reproducibility
 
 ```bash
-cd D:/tieai-py-dev
+cd <repo root>
 venv/Scripts/python.exe -m pytest --ignore=tests/test_document_editor_scroll.py --tb=line -q --no-header
 ```
 
-Output saved to: `/c/Users/Admin/test_full.out`, `/c/Users/Admin/test_full.err`.
+Output saved to: `<local run log>`, `<local run log>`.
 
 ## Summary
 

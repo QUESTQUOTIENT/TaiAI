@@ -44,6 +44,17 @@ except Exception:  # pragma: no cover
 from src.upload_handler import UploadHandler  # noqa: E402
 
 
+def _read_json(path):
+    """Read JSON without leaking the file handle.
+
+    The bare ``json.load(open(path))`` this replaces relied on GC to close the
+    descriptor. pytest runs with ``filterwarnings = error``, so the resulting
+    ResourceWarning was promoted to a hard test failure.
+    """
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 N_WRITERS = 10
 
 
@@ -92,7 +103,7 @@ def test_concurrent_inserts_lose_entries(tmp_path):
 
     def insert(idx: int) -> None:
         with handler._index_lock:
-            current = json.load(open(db_path)) if os.path.exists(db_path) else {}
+            current = _read_json(db_path) if os.path.exists(db_path) else {}
             current[f"owner:hash_{idx}"] = {"id": f"file_{idx}", "owner": "owner"}
             handler._atomic_write_json(db_path, current)
 
@@ -246,7 +257,7 @@ def test_partial_write_recovery_via_bak(tmp_path):
         "Production _atomic_write_json must create a .bak sibling on subsequent writes."
     )
 
-    full = open(db_path, "rb").read()
+    full = Path(db_path).read_bytes()
     truncated_len = max(1, len(full) // 2)
     with open(db_path, "wb") as f:
         f.write(full[:truncated_len])
@@ -385,13 +396,13 @@ def test_smoke_info_lookup_after_bak_recovery(tmp_path):
     # Force a .bak by writing a second time.
     handler._atomic_write_json(
         db_path,
-        json.load(open(db_path)),
+        _read_json(db_path),
     )
     handler._atomic_write_json(db_path, {"sentinel": True})
     assert os.path.exists(db_path + ".bak")
 
     # Truncate the live file.
-    full = open(db_path, "rb").read()
+    full = Path(db_path).read_bytes()
     with open(db_path, "wb") as f:
         f.write(full[: max(1, len(full) // 2)])
 

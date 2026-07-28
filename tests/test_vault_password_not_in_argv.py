@@ -17,6 +17,7 @@ import json
 import re
 import sys
 import types
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
@@ -102,7 +103,7 @@ def test_unlock_handler_feeds_password_on_stdin_not_argv():
 
 
 def test_tool_vault_unlock_feeds_password_on_stdin_not_argv():
-    text = open("src/tool_implementations.py", encoding="utf-8").read()
+    text = Path("src/tool_implementations.py").read_text(encoding="utf-8")
 
     assert '["unlock", master_password, "--raw"]' not in text
     assert '_run_bw(["unlock", master_password' not in text

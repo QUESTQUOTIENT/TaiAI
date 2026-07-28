@@ -2993,6 +2993,7 @@ def setup_cookbook_routes() -> APIRouter:
             import json as _json
             import subprocess as _sp
             import asyncio as _aio
+            import time as _time
             seen = 0
             # Replay the last `lines` historical lines first
             try:

@@ -90,7 +90,7 @@ services:
       - ${RENDER_GID:-render}
 
   chromadb:
-    image: docker.io/chromadb/chroma:latest
+    image: docker.io/chromadb/chroma:1.0.20
     ports:
       - "${CHROMADB_BIND:-127.0.0.1}:8100:8000"
     volumes:

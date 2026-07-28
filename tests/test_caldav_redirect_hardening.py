@@ -80,8 +80,16 @@ def test_dav_client_does_not_follow_redirect_to_internal_host():
         assert public_methods == ["PROPFIND"], "the PROPFIND must reach the public server first"
         assert sink_hits == [], "redirect toward an internal host must not be followed"
     finally:
+        # shutdown() only stops the serve_forever loop; server_close() releases
+        # the listening socket. Without it the dangling fd surfaces as a
+        # ResourceWarning, which pytest (filterwarnings=error) turns into a
+        # failure even though the security assertions above passed.
         internal.shutdown()
         public.shutdown()
+        internal.server_close()
+        public.server_close()
+        if hasattr(client, "close"):
+            client.close()
 
 
 def test_sync_and_writeback_construct_clients_through_the_helper():
