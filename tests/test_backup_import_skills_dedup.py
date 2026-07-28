@@ -96,6 +96,9 @@ def test_import_skill_not_dropped_by_other_users_title_collision(monkeypatch):
             {"id": "alice-1", "title": "Deploy", "name": "Deploy"},
         ],
     }
+    # /api/import verifies a SHA-256 integrity stamp before applying anything,
+    # so stamp the payload exactly as /api/export does.
+    payload["integrity"] = backup_routes._integrity(payload)
     resp = client.post("/api/import", json=payload)
     assert resp.status_code == 200, resp.text
 

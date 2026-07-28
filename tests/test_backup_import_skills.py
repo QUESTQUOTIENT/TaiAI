@@ -7,6 +7,7 @@ returned a 500 HTML page, and the UI reported a misleading JSON.parse error
 from res.json().
 """
 import asyncio
+import json
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
@@ -14,11 +15,32 @@ import routes.backup_routes as br
 
 
 class _Req:
-    def __init__(self, body):
+    """Minimal stand-in for starlette's ``Request``.
+
+    ``POST /api/import`` reads ``query_params`` (the ``?dry_run=`` switch) and
+    ``headers`` (the content-length DoS guard) in addition to ``json()``. This
+    double previously exposed only ``json()``, so every test using it died with
+    ``AttributeError: '_Req' object has no attribute 'query_params'`` once the
+    dry-run feature landed — a stale fake, not a broken route.
+    """
+
+    def __init__(self, body, query_params=None, headers=None, stamp=True):
+        # The route verifies a SHA-256 integrity stamp before applying
+        # anything, so stamp the payload the same way /api/export does unless a
+        # test is deliberately exercising the corrupt-archive path.
+        if stamp and isinstance(body, dict) and "integrity" not in body:
+            body = dict(body)
+            body["integrity"] = br._integrity(body)
         self._body = body
+        self._raw = json.dumps(body).encode("utf-8")
+        self.query_params = dict(query_params or {})
+        self.headers = dict(headers or {})
 
     async def json(self):
         return self._body
+
+    async def body(self):
+        return self._raw
 
 
 def _setup(monkeypatch, skills_manager):

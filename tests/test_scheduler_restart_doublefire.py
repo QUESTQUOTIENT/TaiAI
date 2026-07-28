@@ -54,12 +54,29 @@ def _setup_isolated_db():
         status = Column(String, default="queued")
         error = Column(Text)
 
+    class CrewMember(B):
+        """Minimal mirror of core.database.CrewMember.
+
+        TaskScheduler.start() dedupes default-assistant rows, so this table has
+        to exist or start() logs "no such table: crew_members" and the dedupe
+        path goes untested. Only the columns that query touches are declared.
+        """
+
+        __tablename__ = "crew_members"
+        id = Column(String, primary_key=True)
+        owner = Column(String, index=True)
+        name = Column(String)
+        is_default_assistant = Column(Boolean, default=False)
+        is_active = Column(Boolean, default=True)
+        sort_order = Column(Integer, default=0)
+
     eng = create_engine("sqlite:///:memory:")
     B.metadata.create_all(eng)
     cd.engine = eng
     cd.SessionLocal = sessionmaker(bind=eng, autocommit=False, autoflush=False)
     cd.ScheduledTask = ScheduledTask
     cd.TaskRun = TaskRun
+    cd.CrewMember = CrewMember
     return cd, ScheduledTask, TaskRun
 
 
@@ -116,6 +133,12 @@ def _drive_scheduler(monkeypatch, pre_start_setup=None):
     # (stubbed to _never here); filter those out so the test only counts
     # real per-poll task dispatches.
     real_dispatches = [c for c in all_dispatched if c.__name__ != "_never"]
+    # The stubbed _loop/_note_pings_loop coroutines are captured by the fake
+    # create_task and never awaited. Close them explicitly: pytest promotes
+    # "coroutine was never awaited" RuntimeWarning to an error at teardown.
+    for coro in all_dispatched:
+        if coro.__name__ == "_never":
+            coro.close()
     return cd, ScheduledTask, TaskRun, real_dispatches
 
 

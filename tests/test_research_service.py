@@ -43,7 +43,21 @@ Quantum error correction saw major advances in 2024. See [an inline note](https:
 
 
 def _run(coro):
-    return asyncio.new_event_loop().run_until_complete(coro)
+    """Run ``coro`` on a private event loop and always close it.
+
+    The loop used to be leaked (``asyncio.new_event_loop().run_until_complete``
+    with no close). Garbage collection then fired ``BaseEventLoop.__del__``
+    at an arbitrary later point, and because pytest runs with
+    ``filterwarnings = error`` the resulting ResourceWarning was raised against
+    whichever unrelated test happened to be executing — the main source of
+    order-dependent failures in the suite.
+    """
+    loop = asyncio.new_event_loop()
+    try:
+        return loop.run_until_complete(coro)
+    finally:
+        asyncio.set_event_loop(None)
+        loop.close()
 
 
 class _StubHandler:

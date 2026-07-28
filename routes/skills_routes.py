@@ -1611,7 +1611,9 @@ def setup_skills_routes(skills_manager: SkillsManager) -> APIRouter:
             raise HTTPException(404, "Skill not found")
         _verify_owner(match, user)
 
-        updates = body.dict(exclude_none=True)
+        # model_dump(), not the Pydantic-v1 .dict() shim: the latter emits
+        # PydanticDeprecatedSince20 and is slated for removal in Pydantic v3.
+        updates = body.model_dump(exclude_none=True)
         if not updates:
             return {"ok": True}
         ok = skills_manager.update_skill(match.get("name"), updates, owner=user)
