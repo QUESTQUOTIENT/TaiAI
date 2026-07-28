@@ -1066,6 +1066,8 @@ async def health_deep(request: Request) -> Dict[str, object]:
     except ImportError:
         pass
 
+    import time
+
     from core.diagnostics import run_all_checks, summary, list_checks
     ids_param = request.query_params.get("ids")
     ids = [s.strip() for s in ids_param.split(",") if s.strip()] if ids_param else None
@@ -1153,6 +1155,8 @@ async def diagnostics_bundle(request: Request) -> Dict[str, object]:
     import platform
     import sys as _sys
     import time as _time
+
+    from core.constants import APP_VERSION
     # Recent log lines (best-effort; tail the active log file if present)
     log_tail = []
     try:

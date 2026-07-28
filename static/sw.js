@@ -94,8 +94,8 @@ self.addEventListener('install', (e) => {
           const forceReload = url === '/' || url.endsWith('manifest.json');
           return fetch(url, forceReload ? { cache: 'reload' } : undefined)
             .then(res => res.ok ? cache.put(url, res) : null)
-            .catch(() => null)
-        )
+            .catch(() => null);
+        })
       )
     )
   );
